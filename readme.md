@@ -7,4 +7,4 @@
 
 
 
-FOR MEN: If you experience a prolonged, painful headache, stop using this code and seek immediate medical attention or permanent problems could occur.
+CONTACT YOUR DOCTOR IMMEDIATELY if you experience sharp or crushing chest pain; sudden shortness of breath; sudden leg pain; sudden severe headache, vomiting, dizziness, or fainting; changes in vision; numbness of an arm or leg; slurred speech; one-sided weakness; sudden unexplained weight gain; change in amount of urine produced; severe or persistent stomach pain; vomit that looks like coffee grounds; black tarry stools; itching, reddened, swollen, blistered, painful, or peeling skin; yellowing of the skin or eyes; dark urine; right-sided tenderness; severe or persistent tiredness; fever, chills, or sore throat; severe or persistent nausea; swelling of hands, ankles, feet, face, lips, eyes, throat, or tongue; difficulty swallowing or breathing; or hoarseness.
