@@ -3,38 +3,46 @@
 (function()
 {
 	window.addEventListener( "load", main );
-	window.addEventListener( "resize", onWindowResize, false );
 }());
 
 function main() {
-	var container, controls;
-	var camera, scene, renderer, light;
+	// Event Listener for clicks in Reset Video button.
+	var resetBtn = document.getElementById("resetBtn");
+	resetBtn.addEventListener("click", resetVideo);
 
-	init();
-	animate();
-}
-
-function init(container, controls, camera, scene) {
-	container = document.createElement( 'div' );
-	document.body.appendChild( container );
-
-	camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.0001, 200000);
-	camera.position.set( -2, 1, 3 );
-
-	controls = new THREE.OrbitControls( camera );
-	controls.target.set( 0, -0.2, -0.2 );
-	controls.update();
-
-	scene = new THREE.Scene();
-}
-
-function animate() {
+	// Event Listener for clicks in Settings button.
+	var settingsBtn = document.getElementById("settingsBtn");
+	settingsBtn.addEventListener("click", openSettings);
 
 }
 
-function onWindowResize() {
-	camera.aspect = window.innerWidth / window.innerHeight;
-	camera.updateProjectionMatrix();
+function resetVideo() {
+	// Gets video element.
+	var vid = document.getElementById("videoTutorial");
 
-	renderer.setSize( window.innerWidth, window.innerHeight );
+	// Fades video to black and then resets it.
+	vid.style.opacity = "0";
+	setTimeout(function() {
+		vid.currentTime = 0;
+		vid.style.opacity = "1";
+	}, 200);
+	
+}
+
+function openSettings() {	
+	document.getElementById("gameBtn").style.opacity = "0";
+	document.getElementById("loginBtn").style.opacity = "0";
+	document.getElementById("editorBtn").style.opacity = "0";
+	document.getElementById("settingsBtn").style.opacity = "0";
+	document.getElementById("auxB").style.display = "block";
+	
+	setTimeout(function() {
+		document.getElementById("menu").style.width = "90vw";
+		document.getElementById("auxA").style.display = "none";
+		
+		document.getElementById("musicBtn").style.opacity = "1";
+		document.getElementById("sndFxBtn").style.opacity = "1";
+		document.getElementById("etcBtn").style.opacity = "1";
+	}, 200);
+	
 }
