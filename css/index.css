@@ -5,3 +5,73 @@ body {
     height: 100vh;
     overflow: hidden;
 }
+
+h1 {
+    font-size: 3vw;
+}
+
+p {
+    font-size: 1vw;
+}
+
+/* Style the video tutorial: 100% width and height to cover the entire window */
+#videoTutorial {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%; 
+    min-height: 100%;
+}
+
+/* Adds logo to the top left of the video */
+.logo {
+    width: 25vw;
+}
+
+/* Style the button used to pause/play the video */
+.videoButton {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 15%;
+    font-size: 1.5vw;
+    padding: 1%;
+    margin: 1%;
+    border: none;
+    background: #000;
+    color: #fff;
+    cursor: pointer;
+}
+
+.videoButton:hover {
+    background: #ddd;
+    color: black;
+}
+
+/* Adds menu at the right of the video */
+.menu {
+    position: fixed;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: #f1f1f1;
+    height: 100%;
+    width: 25vw;
+    padding: 1vw;
+}
+
+/* Style the menu buttons */
+.menuButton {
+    width: 100%;
+    font-size: 1.5vw;
+    padding: 1vw;
+    margin: 0.1vw;
+    border: none;
+    background: #000;
+    color: #fff;
+    cursor: pointer;
+}
+
+.menuButton:hover {
+    background: #ddd;
+    color: black;
+}
