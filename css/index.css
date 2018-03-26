@@ -27,7 +27,7 @@ p {
 }
 
 /* Style the video tutorial: 100% width and height to cover the entire window */
-#videoTutorial {
+.backgroundVideo {
     position: fixed;
     right: 0;
     bottom: 0;
@@ -51,7 +51,7 @@ p {
     position: fixed;
     left: 0;
     bottom: 0;
-    width: 6vw;
+    width: fit-content;
     font-size: 1vw;
     padding: 0.2vw;
     margin: 1vw;
@@ -84,7 +84,7 @@ p {
     width: 25vw;
     padding: 1vw;
     outline: none;
-    transition: width 0.2s;
+    transition: all 0.2s;
     margin: 0;
 }
 
@@ -128,5 +128,24 @@ p {
 }
 
 .play:active {
+    box-shadow: 0 0.1vw #FFDD33;
+}
+
+/* Style the back button */
+.back {
+    position: absolute;
+    bottom: 2.5vw;
+    left: 1vw;
+    width: fit-content;
+    font-size: 1vw;
+    background: linear-gradient(0, #FFC523, #FFDD33);
+    box-shadow: 0 0.3vw #FFDD33;
+}
+
+.back:hover {
+    background: #FFC523;
+}
+
+.back:active {
     box-shadow: 0 0.1vw #FFDD33;
 }

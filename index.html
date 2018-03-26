@@ -9,11 +9,11 @@
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <link href="https://fonts.googleapis.com/css?family=Bangers" rel="stylesheet">
 
-    <script src="js/three.min.js"></script>    
+    <script src="js/three.min.js"></script>
 </head>
 <body>
     <!-- Background video -->
-    <video autoplay muted loop id="videoTutorial" src="resources/video/rain.mp4"></video>
+    <video autoplay muted loop class="backgroundVideo" id="videoTutorial" src="resources/video/rain.mp4"></video>
 
     <!-- Lateral Menu -->
     <div class="menu" id = "menu">
@@ -22,7 +22,7 @@
 
         <img src="resources/svg/logo.svg" class="logo">
 
-        <div class="aux" id = "auxA">
+        <div class="aux" id = "aux">
             <button class="menuButton play" id="gameBtn">Start Game</button>
 
             <button class="menuButton" id="loginBtn">Login</button>
@@ -30,10 +30,12 @@
             <button class="menuButton" id="settingsBtn">Settings</button>
         </div>
 
-        <div class="aux" id = "auxB" style="display:none;">
+        <!-- Settings -->
+        <div class="aux" id = "auxSettings" style="display:none;">
             <button class="menuButton" id="musicBtn" style="opacity:0;">Music</button>
             <button class="menuButton" id="sndFxBtn" style="opacity:0;">Sound Effects</button>
             <button class="menuButton" id="etcBtn" style="opacity:0;">Graphics Quality</button>
+            <button class="menuButton back" id="backSettingsBtn" style="opacity:0;">Save Settings and go back</button>
         </div>
     </div>
     
