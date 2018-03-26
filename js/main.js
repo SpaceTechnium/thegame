@@ -26,7 +26,8 @@ function main() {
 
 function resetVideo() {
 	// Fades video to black and then resets it.
-	document.getElementById("videoTutorial").style.opacity = "0";
+	var vid = document.getElementById("videoTutorial");
+	vid.style.opacity = "0";
 	setTimeout(function() {
 		vid.currentTime = 0;
 		vid.style.opacity = "1";
