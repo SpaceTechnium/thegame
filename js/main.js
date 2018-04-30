@@ -97,6 +97,9 @@ function startGame() {
 	var camera, scene, renderer;
 
 	var buttonW = false, buttonA = false, buttonS = false, buttonD = false;
+
+	var solarSystem_Width = 15;
+	var solarSystem_Length = 15;
 	
 	class Planet {
 		constructor(vectorPos, radius, speed, semiminor, semimajor, planet) {
@@ -291,8 +294,8 @@ function startGame() {
 		// arrayPlanets			-> Array with info about planets [radius, rotationSpeed, semiminor, semimajor, ...] with a size of numPlanets * 4.
 		// sunRadius			-> value that is used as the Sun's radius.
 
-	for (var i = 0; i < 10; i++) {
-		for (var j = 0; j < 10; j++) {
+	for (var i = 0; i < solarSystem_Width; i++) {
+		for (var j = 0; j < solarSystem_Length; j++) {
 			var semiminor = 10, semimajor = 10;
 			var numPlanets = 1 + (randomizer.genrand_int31() % 10);
 			var infoPlanets = [];
@@ -309,7 +312,7 @@ function startGame() {
 		}
 	}
 
-	for (var i = 0; i < 100; i++)
+	for (var i = 0; i < (solarSystem_Width * solarSystem_Length); i++)
 		solarSystems[i].spawn();
 		
 
@@ -349,7 +352,7 @@ function startGame() {
 
 		// oi.update();
 
-		for (var i = 0; i < 100; i++)
+		for (var i = 0; i < (solarSystem_Width * solarSystem_Length); i++)
 			solarSystems[i].update();
 
 		// Camera Movement.
