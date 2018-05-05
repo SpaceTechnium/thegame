@@ -102,6 +102,14 @@ function startGame() {
 	var solarSystem_Length = 15;
 	
 	class Planet {
+		// Arguments:
+		// vectorPos			-> Position of one focus of the orbit (Sun Focus).
+		// radius				-> Planet radius.
+		// speed				-> Orbit Speed.
+		// semiminor			-> Semiminor distance.
+		// semimajor			-> Semimajor distance.
+		// planet				-> Planet Object3D.
+
 		constructor(vectorPos, radius, speed, semiminor, semimajor, planet) {
 			this.vectorPos = vectorPos;
 			this.radius = radius;
@@ -118,11 +126,13 @@ function startGame() {
 		getSemiminor() {
 			return this.semiminor;
 		}
-		
+
 		getSemimajor() {
 			return this.semimajor;
 		}
 
+		// Update planet position.
+		// TODO: Replace performance.now() with server time.
 		update() {
 			this.planet.position.set(this.vectorPos.x + this.semiminor * Math.cos(performance.now()*this.speed), this.vectorPos.z, this.vectorPos.y + this.semimajor * Math.sin(performance.now()*this.speed));
 		}
@@ -145,10 +155,12 @@ function startGame() {
 		}
 		  
 		spawn() {
+			// Spawn Sun.
 			this.sun = new THREE.Mesh( new THREE.SphereGeometry( this.sunRadius, 16, 16 ), new THREE.MeshToonMaterial( {color: "rgb(255,222, 0)"} ) );
 			this.sun.position.set(this.pos.x, this.pos.z, this.pos.y);
 			scene.add(this.sun);
 
+			// Spawn Planets
 			for (var i = 0; i < this.numPlanets; i++) {
 				var planet = new THREE.Mesh( new THREE.SphereGeometry(this.infoPlanets[i*4], 16, 16), new THREE.MeshToonMaterial(  {color: "rgb(255,0, 255)"} ));
 				this.arrayPlanets.push(new Planet(this.pos, this.infoPlanets[i*4], this.infoPlanets[i*4+1], this.infoPlanets[i*4+2], this.infoPlanets[i*4+3], planet));
@@ -157,6 +169,7 @@ function startGame() {
 
 		}
 
+		// Update Planets.
 		update() {
 			for (var i = 0; i < this.numPlanets; i++) {
 				this.arrayPlanets[i].update();
@@ -265,6 +278,9 @@ function startGame() {
 
 	scene = new THREE.Scene();
 
+	// Set scene background dark blue.
+	scene.background = new THREE.Color("rgb(2, 0, 15)");
+
 	// Create camera.
 	camera = new THREE.PerspectiveCamera( 90, window.innerWidth/window.innerHeight, 0.1, 10000 );
 	scene.add( camera );
@@ -285,6 +301,7 @@ function startGame() {
 
 	// Create Solar Systems.
 	var solarSystems = [];
+	// 42 is the default seed.
 	var randomizer = new MersenneTwister(42);
 	var planetas = 0;
 
@@ -301,33 +318,63 @@ function startGame() {
 			var infoPlanets = [];
 			for (var k = 0; k < numPlanets; k++) {
 				infoPlanets.push(0.1 + (randomizer.genrand_int31() % 5));
-				infoPlanets.push(0.0001 + (randomizer.genrand_real1() * 0.009));
-				infoPlanets.push(semiminor + semiminor * (randomizer.genrand_real1() * k));
-				infoPlanets.push(semimajor + semimajor * (randomizer.genrand_real1() * k));
-				semiminor += 20;
-				semimajor += 20;
+				infoPlanets.push(0.00001 + (randomizer.genrand_real1() * 0.00009));
+				infoPlanets.push(semiminor + (randomizer.genrand_real1() * k));
+				infoPlanets.push(semimajor + (randomizer.genrand_real1() * k));
+				semiminor += 10;
+				semimajor += 10;
 			}
-			solarSystems.push(new SolarSystem( new THREE.Vector3(i*100 + (randomizer.genrand_int31() % 10), j*100 + (randomizer.genrand_int31() % 10), ((i+j)%4) * (randomizer.genrand_int31() % 100) ), numPlanets, infoPlanets, 1 + (randomizer.genrand_int31() % 10) ));
-			console.log(infoPlanets);
+			solarSystems.push(new SolarSystem( new THREE.Vector3(i*100 + (randomizer.genrand_int31() % 10) - solarSystem_Width * 50, j*100 + (randomizer.genrand_int31() % 10) - solarSystem_Length * 50, (((i+j)%4) - 2) * (randomizer.genrand_int31() % 300) + (randomizer.genrand_int31() % 50) - 25), numPlanets, infoPlanets, 1 + (randomizer.genrand_int31() % 10) ));
 		}
 	}
 
+	// Spawn Solar Systems.
 	for (var i = 0; i < (solarSystem_Width * solarSystem_Length); i++)
 		solarSystems[i].spawn();
 		
+	// [Ship Creation part.]
 
+	// Initialize ship variable.
+	var ship = null;
 
+	// Instantiate a loader
+	var loader = new THREE.GLTFLoader();
 
-	// Create ship.
-	var ship = new THREE.Mesh( new THREE.BoxGeometry( 0.2, 0.001, 0.1 ), new THREE.MeshStandardMaterial( { color: 0xcc0000 } ) );
+	// Load a glTF resource.
+	loader.load(
+		// Resource URL.
+		'resources/models/v1_def.glb',
+		// Called when the resource is loaded.
+		function ( gltf ) {
+
+			// Spawn ship.
+			ship = gltf.scene.children[0];
+			ship.scale.set(0.01, 0.01, 0.01);
+			scene.add(ship);
+	
+		},
+		// Called when loading is in progresses.
+		function ( xhr ) {
+
+			console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded...' );
+
+		},
+		// Called when loading has errors.
+		function ( error ) {
+
+			console.log( 'An error happened while loading resources.' );
+
+		}
+	);
+
+	// Ship attributes.
 	var shipOscilation = 0;
 	var shipFrontSpeed = 0;
 	var shipLeftSpeed = 0;
 	var shipBackSpeed = 0;
 	var shipRightSpeed = 0;
-	ship.castShadow = true;
-	scene.add( ship );
-
+	
+	// Ship movement helpers.
 	var shipPointPlace = new THREE.Mesh( new THREE.SphereGeometry( 0.02, 4, 4 ) );
 	shipPointPlace.position.set(0,-0.075,-0.275);
 	shipPointPlace.visible = false;
@@ -338,24 +385,17 @@ function startGame() {
 	shipPointLook.position.set(0,-0.075,-2.5);
 	camera.add( shipPointLook );
 
-
-	// Set background dark blue.
-	scene.background = new THREE.Color("rgb(2, 0, 15)");
-
-	// var oi = new SolarSystem(new THREE.Vector3(0,0,1), 1, [1, 0.001, 100, 200], 3);
-	// oi.spawn();
-	
-	
 	var animate = function () {
 		requestAnimationFrame( animate );
+
+		// shipOscilation is used to oscilate the ship for visual entertainment.
 		shipOscilation += 0.05 + (shipFrontSpeed + shipBackSpeed) * 1000 + (shipLeftSpeed + shipRightSpeed) * 500;
 
-		// oi.update();
-
+		// Update Solar Systems.
 		for (var i = 0; i < (solarSystem_Width * solarSystem_Length); i++)
 			solarSystems[i].update();
 
-		// Camera Movement.
+		// Ship Movement actuators.
 		if (buttonW == true) {
 			if (shipFrontSpeed > -0.1)
 				shipFrontSpeed = shipFrontSpeed * 1.01 - 0.0010;
@@ -387,19 +427,20 @@ function startGame() {
 				shipRightSpeed /= 1.05;
 		}
 
-		// Apply Speeds.
-		camera.translateZ(shipFrontSpeed); // Front.
-		camera.translateX(shipLeftSpeed); // Left.
-		camera.translateZ(shipBackSpeed); // Back.
-		camera.translateX(shipRightSpeed); // Right.
+		// Apply movement.
+		camera.translateZ(shipFrontSpeed + shipBackSpeed); // Front and Back.
+		camera.translateX(shipLeftSpeed + shipRightSpeed); // Left and Right.
 		
-		// Ship following Part.
-		var shipVector = shipPointPlace.getWorldPosition( new THREE.Vector3());
+		// Get ship front vector.
+		var shipVector = shipPointPlace.getWorldPosition( new THREE.Vector3() );
+
+		// Make ship follow the camera.
 		ship.position.x = (0.01 * ship.position.x + 0.99 * shipVector.x) + Math.cos(shipOscilation)/(500 + (shipFrontSpeed*2000));
 		ship.position.y = (0.01 * ship.position.y + 0.99 * shipVector.y) + Math.sin(shipOscilation)/(500 + (shipFrontSpeed*2000));
 		ship.position.z = (0.01 * ship.position.z + 0.99 * shipVector.z) ;
 
-		ship.lookAt(shipPointLook.getWorldPosition( new THREE.Vector3()))
+		// Make ship look at the front vector.
+		ship.lookAt(shipPointLook.getWorldPosition( new THREE.Vector3()) )
 		
 		renderer.render(scene, camera);
 	};
