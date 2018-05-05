@@ -213,6 +213,8 @@ function startGame() {
 	// Pitch tilts camera's head up or down - Equivalent to noding your head.
 	var yaw = 0;
 	var pitch = 0;
+	var halfPI = Math.PI / 2;
+	var doublePI = Math.PI * 2;
 
 	// Create auxiliary matrices responsible for spaceship control.
 	var yawMatrix = new THREE.Matrix4();
@@ -222,7 +224,10 @@ function startGame() {
 	// Mouse actuator.
 	function mouseMovement(e) {
 		// Updates yaw and pitch values according to mouse movement.
-		yaw = yaw + e.movementX * -0.002;
+		if ((Math.abs(pitch) + halfPI) % doublePI < Math.PI)
+			yaw = yaw - e.movementX * 0.002;
+		else
+			yaw = yaw + e.movementX * 0.002;
 
 		pitch = pitch + e.movementY * -0.002;
 
@@ -343,13 +348,13 @@ function startGame() {
 	// Load a glTF resource.
 	loader.load(
 		// Resource URL.
-		'resources/models/v1_def.glb',
+		'resources/models/Duck.gltf',
 		// Called when the resource is loaded.
 		function ( gltf ) {
 
 			// Spawn ship.
 			ship = gltf.scene.children[0];
-			ship.scale.set(0.01, 0.01, 0.01);
+			ship.scale.set(0.001, 0.001, 0.001);
 			scene.add(ship);
 	
 		},
