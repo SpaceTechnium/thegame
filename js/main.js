@@ -162,7 +162,7 @@ function startGame() {
 
 			// Spawn Planets
 			for (var i = 0; i < this.numPlanets; i++) {
-				var planet = new THREE.Mesh( new THREE.SphereGeometry(this.infoPlanets[i*4], 16, 16), new THREE.MeshToonMaterial(  {color: "rgb(255,0, 255)"} ));
+				var planet = new THREE.Mesh( new THREE.SphereGeometry(this.infoPlanets[i*4], 16, 16), new THREE.MeshToonMaterial(  {color: new THREE.Color( randomizer.genrand_real1(), randomizer.genrand_real1(), randomizer.genrand_real1() )} ));
 				this.arrayPlanets.push(new Planet(this.pos, this.infoPlanets[i*4], this.infoPlanets[i*4+1], this.infoPlanets[i*4+2], this.infoPlanets[i*4+3], planet));
 				scene.add(planet);
 			}
@@ -306,7 +306,7 @@ function startGame() {
 	activatePointerLock();
 
 	// Create ambient light, that illuminates everything uniformly.
-	var ambientLight = new THREE.AmbientLight( 0x404040, 2 ); // Soft white light.
+	var ambientLight = new THREE.AmbientLight( 0xffffff, 0.72 ); // Soft white light.
 	scene.add( ambientLight );
 
 	// Create Solar Systems.
@@ -323,7 +323,7 @@ function startGame() {
 
 	for (var i = 0; i < solarSystem_Width; i++) {
 		for (var j = 0; j < solarSystem_Length; j++) {
-			var semiminor = 10, semimajor = 10;
+			var semiminor = 35, semimajor = 35;
 			var numPlanets = 1 + (randomizer.genrand_int31() % 10);
 			var infoPlanets = [];
 			for (var k = 0; k < numPlanets; k++) {
@@ -334,7 +334,7 @@ function startGame() {
 				semiminor += 10;
 				semimajor += 10;
 			}
-			solarSystems.push(new SolarSystem( new THREE.Vector3(i*100 + (randomizer.genrand_int31() % 10) - solarSystem_Width * 50, j*100 + (randomizer.genrand_int31() % 10) - solarSystem_Length * 50, (((i+j)%4) - 2) * (randomizer.genrand_int31() % 300) + (randomizer.genrand_int31() % 50) - 25), numPlanets, infoPlanets, 1 + (randomizer.genrand_int31() % 10) ));
+			solarSystems.push(new SolarSystem( new THREE.Vector3(i*100 + (randomizer.genrand_int31() % 10) - solarSystem_Width * 50, j*100 + (randomizer.genrand_int31() % 10) - solarSystem_Length * 50, (((i+j)%4) - 2) * (randomizer.genrand_int31() % 300) + (randomizer.genrand_int31() % 50) - 25), numPlanets, infoPlanets, 1 + (randomizer.genrand_int31() % 30) ));
 		}
 	}
 
@@ -395,6 +395,22 @@ function startGame() {
 	shipPointLook.position.set(0,-0.075,-2.5);
 	camera.add( shipPointLook );
 
+
+	renderer.autoClear = false;
+    var composer = new THREE.EffectComposer(renderer);
+	var sunRenderModel = new THREE.RenderPass(scene, camera);
+
+	var effectBloom = new THREE.BloomPass(0.8, 25, 4, 512);
+
+    var sceneRenderModel = new THREE.RenderPass(scene, camera);
+    var effectCopy = new THREE.ShaderPass(THREE.CopyShader);
+    effectCopy.renderToScreen = true;
+	composer.addPass(sunRenderModel);
+	composer.addPass(effectBloom);
+	composer.addPass(effectCopy);
+
+	console.log(effectBloom);
+
 	var animate = function () {
 		requestAnimationFrame( animate );
 
@@ -452,7 +468,7 @@ function startGame() {
 		// Make ship look at the front vector.
 		ship.lookAt(shipPointLook.getWorldPosition( new THREE.Vector3()) )
 		
-		renderer.render(scene, camera);
+		composer.render();
 	};
 
 	animate();
