@@ -196,14 +196,20 @@ function startGame() {
 		if (document.pointerLockElement === document.body) {
 		  	console.log('The pointer lock status is now locked');
 			document.addEventListener("mousemove", mouseMovement, false);
+			document.removeEventListener("mousedown", activatePointerLock, false)
 		  	document.addEventListener("keydown", keyboardControlDown);
 		  	document.addEventListener("keyup", keyboardControlUp);
 		} else {
 		  	console.log('The pointer lock status is now unlocked');  
 			document.removeEventListener("mousemove", mouseMovement, false);
+			document.addEventListener("mousedown", activatePointerLock, false)
 		  	document.removeEventListener("keydown", keyboardControlDown);
 			document.removeEventListener("keyup", keyboardControlUp);
 		}
+	}
+
+	function activatePointerLock() {
+		document.body.requestPointerLock();
 	}
 
 	// [Mouse Movement part.]
@@ -244,7 +250,6 @@ function startGame() {
 
 		// Rotates the camera.
 		camera.setRotationFromMatrix(rotateMatrix);
-		
 	}
 
 	// Keyboard key actuators.
@@ -298,7 +303,7 @@ function startGame() {
 	document.body.appendChild( renderer.domElement );
 
 	// Lock Mouse.
-	document.body.requestPointerLock();
+	activatePointerLock();
 
 	// Create ambient light, that illuminates everything uniformly.
 	var ambientLight = new THREE.AmbientLight( 0x404040, 2 ); // Soft white light.
