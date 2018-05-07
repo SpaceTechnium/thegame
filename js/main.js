@@ -197,6 +197,7 @@ function startGame() {
 		  	console.log('The pointer lock status is now locked');
 			document.addEventListener("mousemove", mouseMovement, false);
 			document.removeEventListener("mousedown", activatePointerLock, false)
+			document.addEventListener("mousedown", glitchWild, false)
 		  	document.addEventListener("keydown", keyboardControlDown);
 		  	document.addEventListener("keyup", keyboardControlUp);
 		} else {
@@ -290,6 +291,9 @@ function startGame() {
 
 	// Set scene background dark blue.
 	scene.background = new THREE.Color("rgb(2, 0, 15)");
+	
+	// Add fog to scene.
+	// scene.fog = new THREE.Fog("rgb(5, 0, 25)", 200, 500);
 
 	// Create camera.
 	camera = new THREE.PerspectiveCamera( 90, window.innerWidth/window.innerHeight, 0.1, 10000 );
@@ -359,7 +363,7 @@ function startGame() {
 
 			// Spawn ship.
 			ship = gltf.scene.children[0];
-			ship.scale.set(0.001, 0.001, 0.001);
+			ship.scale.set(0.0005, 0.0005, 0.0005);
 			scene.add(ship);
 	
 		},
@@ -400,16 +404,36 @@ function startGame() {
     var composer = new THREE.EffectComposer(renderer);
 	var sunRenderModel = new THREE.RenderPass(scene, camera);
 
+	// var bokehPass = new THREE.BokehPass( scene, camera, {
+	// 	focus: 		10.0,
+	// 	aperture:	3.025,
+	// 	maxblur:	2.0,
+	// 	width: window.innerWidth,
+	// 	height: window.innerHeight
+	// } );
+
+	var glitchPass = new THREE.GlitchPass();
+
 	var effectBloom = new THREE.BloomPass(0.8, 25, 4, 512);
 
     var sceneRenderModel = new THREE.RenderPass(scene, camera);
     var effectCopy = new THREE.ShaderPass(THREE.CopyShader);
     effectCopy.renderToScreen = true;
 	composer.addPass(sunRenderModel);
+	// composer.addPass(bokehPass);
+	composer.addPass(glitchPass);
 	composer.addPass(effectBloom);
 	composer.addPass(effectCopy);
 
-	console.log(effectBloom);
+	console.log(bokehPass);
+
+	function glitchWild() {
+		if (glitchPass.goWild == true) {
+			glitchPass.goWild = false;
+		} else {
+			glitchPass.goWild = true;
+		}
+	}
 
 	var animate = function () {
 		requestAnimationFrame( animate );
