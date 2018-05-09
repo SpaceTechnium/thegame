@@ -156,13 +156,13 @@ function startGame() {
 		  
 		spawn() {
 			// Spawn Sun.
-			this.sun = new THREE.Mesh( new THREE.SphereGeometry( this.sunRadius, 16, 16 ), new THREE.MeshToonMaterial( {color: "rgb(255,222, 0)"} ) );
+			this.sun = new THREE.Mesh( new THREE.SphereGeometry( this.sunRadius, 16, 16 ), new THREE.MeshToonMaterial( {color: new THREE.Color( 1, 0.65 + randomizer.genrand_real1() * 0.35, 0.15 + randomizer.genrand_real1() * 0.85 )} ) );
 			this.sun.position.set(this.pos.x, this.pos.z, this.pos.y);
 			scene.add(this.sun);
 
 			// Spawn Planets
 			for (var i = 0; i < this.numPlanets; i++) {
-				var planet = new THREE.Mesh( new THREE.SphereGeometry(this.infoPlanets[i*4], 16, 16), new THREE.MeshToonMaterial(  {color: new THREE.Color( randomizer.genrand_real1(), randomizer.genrand_real1(), randomizer.genrand_real1() )} ));
+				var planet = new THREE.Mesh( new THREE.SphereGeometry(this.infoPlanets[i*4], 16, 16), new THREE.MeshToonMaterial(  {color: new THREE.Color( randomizer.genrand_real1() / 4, randomizer.genrand_real1() / 2, randomizer.genrand_real1() / 2 )} ));
 				this.arrayPlanets.push(new Planet(this.pos, this.infoPlanets[i*4], this.infoPlanets[i*4+1], this.infoPlanets[i*4+2], this.infoPlanets[i*4+3], planet));
 				scene.add(planet);
 			}
@@ -296,7 +296,7 @@ function startGame() {
 	// scene.fog = new THREE.Fog("rgb(5, 0, 25)", 200, 500);
 
 	// Create camera.
-	camera = new THREE.PerspectiveCamera( 90, window.innerWidth/window.innerHeight, 0.1, 10000 );
+	camera = new THREE.PerspectiveCamera( 90, window.innerWidth/window.innerHeight, 0.1, 3000 );
 	scene.add( camera );
 	camera.position.z = 5;
 
@@ -357,13 +357,13 @@ function startGame() {
 	// Load a glTF resource.
 	loader.load(
 		// Resource URL.
-		'resources/models/Duck.gltf',
+		'resources/models/spaceship.gltf',
 		// Called when the resource is loaded.
 		function ( gltf ) {
 
 			// Spawn ship.
 			ship = gltf.scene.children[0];
-			ship.scale.set(0.0005, 0.0005, 0.0005);
+			ship.scale.set(0.01, 0.01, 0.01);
 			scene.add(ship);
 	
 		},
@@ -404,13 +404,13 @@ function startGame() {
     var composer = new THREE.EffectComposer(renderer);
 	var sunRenderModel = new THREE.RenderPass(scene, camera);
 
-	// var bokehPass = new THREE.BokehPass( scene, camera, {
-	// 	focus: 		10.0,
-	// 	aperture:	3.025,
-	// 	maxblur:	2.0,
-	// 	width: window.innerWidth,
-	// 	height: window.innerHeight
-	// } );
+	var bokehPass = new THREE.BokehPass( scene, camera, {
+		focus: 		100.0,
+		aperture:	3.0,
+		maxblur:	3.0,
+		width: window.innerWidth,
+		height: window.innerHeight
+	} );
 
 	var glitchPass = new THREE.GlitchPass();
 
@@ -418,14 +418,15 @@ function startGame() {
 
     var sceneRenderModel = new THREE.RenderPass(scene, camera);
     var effectCopy = new THREE.ShaderPass(THREE.CopyShader);
-    effectCopy.renderToScreen = true;
+	effectCopy.renderToScreen = true;
+	composer.addPass(bokehPass);
 	composer.addPass(sunRenderModel);
-	// composer.addPass(bokehPass);
 	composer.addPass(glitchPass);
-	composer.addPass(effectBloom);
 	composer.addPass(effectCopy);
+	composer.addPass(effectBloom);
+	
 
-	console.log(bokehPass);
+
 
 	function glitchWild() {
 		if (glitchPass.goWild == true) {
@@ -433,6 +434,7 @@ function startGame() {
 		} else {
 			glitchPass.goWild = true;
 		}
+		console.log(ship.position);
 	}
 
 	var animate = function () {
