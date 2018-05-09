@@ -404,14 +404,6 @@ function startGame() {
     var composer = new THREE.EffectComposer(renderer);
 	var sunRenderModel = new THREE.RenderPass(scene, camera);
 
-	var bokehPass = new THREE.BokehPass( scene, camera, {
-		focus: 		100.0,
-		aperture:	3.0,
-		maxblur:	3.0,
-		width: window.innerWidth,
-		height: window.innerHeight
-	} );
-
 	var glitchPass = new THREE.GlitchPass();
 
 	var effectBloom = new THREE.BloomPass(0.8, 25, 4, 512);
@@ -419,14 +411,12 @@ function startGame() {
     var sceneRenderModel = new THREE.RenderPass(scene, camera);
     var effectCopy = new THREE.ShaderPass(THREE.CopyShader);
 	effectCopy.renderToScreen = true;
-	composer.addPass(bokehPass);
+	
 	composer.addPass(sunRenderModel);
 	composer.addPass(glitchPass);
 	composer.addPass(effectCopy);
 	composer.addPass(effectBloom);
 	
-
-
 
 	function glitchWild() {
 		if (glitchPass.goWild == true) {
@@ -434,7 +424,6 @@ function startGame() {
 		} else {
 			glitchPass.goWild = true;
 		}
-		console.log(ship.position);
 	}
 
 	var animate = function () {
