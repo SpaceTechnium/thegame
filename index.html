@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Space Technium</title>
+    
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link href="https://fonts.googleapis.com/css?family=Bangers" rel="stylesheet">
+
+    <script src="js/three.min.js"></script>
+    <script src="js/mersenne-twister.js"></script>
+
+    <script src="js/GLTFLoader.js"></script>
+
+    <script src="js/CopyShader.js"></script>
+    <script src="js/ConvolutionShader.js"></script>
+
+    <script src="js/EffectComposer.js"></script>
+    <script src="js/RenderPass.js"></script>
+    <script src="js/ShaderPass.js"></script>
+    <script src="js/DigitalGlitch.js"></script>
+    <script src="js/BloomPass.js"></script>
+    <script src="js/GlitchPass.js"></script>
+
+    <script src="js/connection.js"></script>
+</head>
+<body>
+    <!-- Background video -->
+    <video autoplay muted loop class="backgroundVideo" id="videoTutorial" src="resources/video/rain.mp4"></video>
+
+    <!-- Lateral Menu -->
+    <div class="menu" id = "menu">
+        
+        <button class="videoButton" id="resetBtn">Reset Video</button>
+
+        <img src="resources/svg/logo.svg" class="logo">
+
+        <div class="aux" id = "aux">
+            <button class="menuButton play" id="gameBtn">Start Game</button>
+
+            <button class="menuButton" id="loginBtn">Login</button>
+            <button class="menuButton" id="editorBtn">Customize</button>
+            <button class="menuButton" id="settingsBtn">Settings</button>
+        </div>
+
+        <!-- Settings -->
+        <div class="aux" id = "auxSettings" style="display:none;">
+            <button class="menuButton" id="musicBtn" style="opacity:0;">Music</button>
+            <button class="menuButton" id="sndFxBtn" style="opacity:0;">Sound Effects</button>
+            <button class="menuButton" id="etcBtn" style="opacity:0;">Graphics Quality</button>
+            <button class="menuButton back" id="backSettingsBtn" style="opacity:0;">Save Settings and go back</button>
+        </div>
+    </div>
+    
+</body>
+<script src="js/main.js"></script>
+
+</html> 
