@@ -156,7 +156,7 @@ function startGame() {
 		  
 		spawn() {
 			// Spawn Sun.
-			this.sun = new THREE.Mesh( new THREE.SphereGeometry( this.sunRadius, 16, 16 ), new THREE.MeshToonMaterial( {color: new THREE.Color( 1, 0.65 + randomizer.genrand_real1() * 0.35, 0.15 + randomizer.genrand_real1() * 0.85 )} ) );
+			this.sun = new THREE.Mesh( new THREE.SphereGeometry( this.sunRadius, 16, 16 ), new THREE.MeshToonMaterial( {color: new THREE.Color( 1, 0.85 + randomizer.genrand_real1() * 0.15, 0.15 + randomizer.genrand_real1() * 0.85 )} ) );
 			this.sun.position.set(this.pos.x, this.pos.z, this.pos.y);
 			scene.add(this.sun);
 
@@ -298,6 +298,7 @@ function startGame() {
 	// Create camera.
 	camera = new THREE.PerspectiveCamera( 90, window.innerWidth/window.innerHeight, 0.1, 3000 );
 	scene.add( camera );
+	camera.nearClip = 0.001;
 	camera.position.z = 5;
 
 	// Create renderer.
@@ -363,7 +364,7 @@ function startGame() {
 
 			// Spawn ship.
 			ship = gltf.scene.children[0];
-			ship.scale.set(0.01, 0.01, 0.01);
+			ship.scale.set(0.02, 0.02, 0.02);
 			scene.add(ship);
 	
 		},
@@ -387,10 +388,11 @@ function startGame() {
 	var shipLeftSpeed = 0;
 	var shipBackSpeed = 0;
 	var shipRightSpeed = 0;
+	var shipRockets = [];
 	
 	// Ship movement helpers.
 	var shipPointPlace = new THREE.Mesh( new THREE.SphereGeometry( 0.02, 4, 4 ) );
-	shipPointPlace.position.set(0,-0.075,-0.275);
+	shipPointPlace.position.set(0,-0.075,-0.475);
 	shipPointPlace.visible = false;
 	camera.add( shipPointPlace );
 
@@ -399,25 +401,26 @@ function startGame() {
 	shipPointLook.position.set(0,-0.075,-2.5);
 	camera.add( shipPointLook );
 
-
+	// [Post Processing Effects Part.]
 	renderer.autoClear = false;
-    var composer = new THREE.EffectComposer(renderer);
-	var sunRenderModel = new THREE.RenderPass(scene, camera);
+	var composer = new THREE.EffectComposer(renderer);
+	
+	var sceneRenderModel = new THREE.RenderPass(scene, camera);
 
+	// Effects.
 	var glitchPass = new THREE.GlitchPass();
-
 	var effectBloom = new THREE.BloomPass(0.8, 25, 4, 512);
 
-    var sceneRenderModel = new THREE.RenderPass(scene, camera);
     var effectCopy = new THREE.ShaderPass(THREE.CopyShader);
 	effectCopy.renderToScreen = true;
 	
-	composer.addPass(sunRenderModel);
+	composer.addPass(sceneRenderModel);
 	composer.addPass(glitchPass);
-	composer.addPass(effectCopy);
 	composer.addPass(effectBloom);
+	composer.addPass(effectCopy);
 	
-
+	// Starts damage effect on screen.
+	// TODO: LESSEN THE EFFECT.
 	function glitchWild() {
 		if (glitchPass.goWild == true) {
 			glitchPass.goWild = false;
@@ -428,6 +431,9 @@ function startGame() {
 
 	var animate = function () {
 		requestAnimationFrame( animate );
+
+		// Get ship front vector.
+		var shipVector = shipPointPlace.getWorldPosition( new THREE.Vector3() );
 
 		// shipOscilation is used to oscilate the ship for visual entertainment.
 		shipOscilation += 0.05 + (shipFrontSpeed + shipBackSpeed) * 1000 + (shipLeftSpeed + shipRightSpeed) * 500;
@@ -440,9 +446,15 @@ function startGame() {
 		if (buttonW == true) {
 			if (shipFrontSpeed > -0.1)
 				shipFrontSpeed = shipFrontSpeed * 1.01 - 0.0010;
+			// Adds Rocket Particle.
+			shipRockets.unshift(new THREE.Mesh( new THREE.RingGeometry( 0.008, 0.01, 8 ), new THREE.MeshBasicMaterial( { color: 0xff5500, side: THREE.DoubleSide  } ) ));
+			shipRockets[0].position.set(ship.position.x, ship.position.y, ship.position.z);
+			shipRockets[0].rotation.set(ship.rotation.x, ship.rotation.y, ship.rotation.z);
+			scene.add(shipRockets[0]);	
 		} else {
 			if (shipFrontSpeed < 0)
 				shipFrontSpeed /= 1.05;
+			scene.remove(shipRockets.pop());
 		}
 		if (buttonA == true) {
 			if (shipLeftSpeed > -0.05)
@@ -468,12 +480,15 @@ function startGame() {
 				shipRightSpeed /= 1.05;
 		}
 
+		// Removes Rocket Particle.
+		if (shipRockets.length > 100)
+			scene.remove(shipRockets.pop());
+
 		// Apply movement.
 		camera.translateZ(shipFrontSpeed + shipBackSpeed); // Front and Back.
 		camera.translateX(shipLeftSpeed + shipRightSpeed); // Left and Right.
-		
-		// Get ship front vector.
-		var shipVector = shipPointPlace.getWorldPosition( new THREE.Vector3() );
+		camera.fov = 90 + (shipFrontSpeed + shipBackSpeed) * -150;
+		camera.updateProjectionMatrix();
 
 		// Make ship follow the camera.
 		ship.position.x = (0.01 * ship.position.x + 0.99 * shipVector.x) + Math.cos(shipOscilation)/(500 + (shipFrontSpeed*2000));
@@ -483,6 +498,7 @@ function startGame() {
 		// Make ship look at the front vector.
 		ship.lookAt(shipPointLook.getWorldPosition( new THREE.Vector3()) )
 		
+		// Render to Screen.
 		composer.render();
 	};
 
