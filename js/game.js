@@ -5,7 +5,7 @@
 const CAMERA_FOV = 90;
 const CAMERA_NEAR_FRUSTUM = 0.1;
 const CAMERA_FAR_FRUSTUM  = 3000;
-const CAMERA_POS_Z	 	= 5;
+const CAMERA_POS_Z	 	= 50;
 const CAMERA_NEAR_CLIP	= 0.001;
 
 const AMBIENT_LIGHT_COLOR = 0xffffff;
@@ -63,9 +63,12 @@ class Technium {
         // Determine if browser supports pointer lock API.
         var hasPointerLock = 'pointerLockElement' in document;
         if(!hasPointerLock) {
-            Screen.error("Your browser doesn't seem to support Pointer Lock API");
+            Screen.errorScreen("Your browser doesn't seem to support Pointer Lock API");
             throw "Your browser doesn't seem to support Pointer Lock API";
         }
+        
+        // Lock Mouse.
+        this.controller.activatePointerLock();
         
         document.addEventListener('pointerlockchange', this.controller.lockChange, false);
         

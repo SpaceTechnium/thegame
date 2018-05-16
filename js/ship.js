@@ -5,8 +5,9 @@ const SHIP_SCALE = 0.02;
 class Ship {
     constructor() {
         // Attributes
+        this.damage = 1;
         this.oscilation = 0;
-        this.frontSpeed = 0;
+        this.frontSpeed = -0.8;
         this.leftSpeed  = 0;
         this.backSpeed  = 0;
         this.rightSpeed = 0;
@@ -73,23 +74,25 @@ class Ship {
         // Adds Rocket Particle
         this.particles.unshift(
             new THREE.Mesh(
-                new THREE.RingGeometry(0.008, 0.01, 8),
+                new THREE.SphereGeometry( 0.01, 8, 8 ),
                 new THREE.MeshBasicMaterial(
                     {
-                        color: 0xff5500,
+                        color: 16358912 - (this.frontSpeed * 1000),
                         side: THREE.DoubleSide
                     }
                 )
             )
         );
+
+        // TODO: por magic values como constantes
         this.particles[0].position.set(this.model.position.x, this.model.position.y, this.model.position.z);
-        this.particles[0].rotation.set(this.model.rotation.x, this.model.rotation.y, this.model.rotation.z);
+        this.particles[0].rotation.set(this.model.rotation.x, this.model.rotation.y + (this.leftSpeed + this.rightSpeed) * 8, this.model.rotation.z);
+        this.particles[0].scale.set(3 + this.frontSpeed * 20, 3 + this.frontSpeed * 20, this.frontSpeed * -150);
         GAME.scene.add(this.particles[0]);
-        console.log("Mexeu!");
     }
 
     removeMovementParticles() {
-        if (this.particles.length > 100 || this.frontSpeed < this.backSpeed)
+        if (this.particles.length > 100)
             GAME.scene.remove(this.particles.pop());
     }
 
@@ -98,7 +101,7 @@ class Ship {
     actuators(c) {
         // Forward movement 'W' key
         if (c.key_w == true) {
-            if (this.frontSpeed > -0.1)
+            if (this.frontSpeed > -0.3)
                 this.frontSpeed  -= 0.001 + this.frontSpeed * 0.005;
             this.addMovementParticles();
         } else {
@@ -157,23 +160,37 @@ class Ship {
         
         // Remove Rocket Particles.
         this.removeMovementParticles();
+        this.updateBullets();
     }
 
-    fire() {
+    fireBullets() {
         // TODO: Verify that this is fixed
 
         document.getElementById('pewAudio').currentTime = 0;
         document.getElementById('pewAudio').play();
-        this.bullets.unshift(
+        
+        SHIP.bullets.unshift(
             new THREE.Mesh(
-                new THREE.SphereGeometry(0.1, 8, 8),
+                new THREE.SphereGeometry(0.07, 8, 8),
                 new THREE.MeshBasicMaterial(
-                    { color: 0x11ff11, side: THREE.DoubleSide  } 
-                ) 
+                    {
+                        color: 0x11ff11,
+                        side: THREE.DoubleSide
+                    }
+                )
             )
         );
-        this.bullets[0].position.set(this.model.position.x, this.model.position.y, this.model.position.z);
-        this.bullets[0].rotation.set(this.model.rotation.x, this.model.rotation.y, this.model.rotation.z);
+
+        SHIP.bullets[0].position.set(SHIP.model.position.x, SHIP.model.position.y, SHIP.model.position.z);
+        SHIP.bullets[0].rotation.set(SHIP.model.rotation.x, SHIP.model.rotation.y, SHIP.model.rotation.z);
+
+
+        GAME.scene.add(SHIP.bullets[0]);
         // TODO: check if this works as intended
+    }
+
+    updateBullets() {
+        for(var i = 0; i < this.bullets.length; i++)
+            this.bullets[i].translateZ(1);
     }
 }

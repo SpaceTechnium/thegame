@@ -196,3 +196,15 @@ p {
     width: auto;
     font-size: 1vw;
 }
+
+.dmgIndicator {
+    position: fixed;
+    background-color: #FFFFFF;
+    padding: 1%;
+    width: 11%;
+    opacity: 0.75;
+    text-align: left;
+    font-size: 2vw;
+    left: 1vw;
+    bottom: 1vw;
+}

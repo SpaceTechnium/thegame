@@ -4,6 +4,7 @@
     window.addEventListener("load", main);
 })();
 
+var SCREEN = null;
 var GAME = null;
 var SHIP = null;
 var controller = null;
@@ -38,6 +39,7 @@ function main() {
 function animate() {
 	requestAnimationFrame( animate );
 	GAME.animate_loop();
+	SCREEN.update();
 }
 
 function startGame() {
@@ -45,8 +47,9 @@ function startGame() {
 	SHIP.load_model();
 	console.log(SHIP);
 
-	var screen = new Screen();
-	screen.fadeToBlack();
+	SCREEN = new Screen();
+	SCREEN.fadeToBlack();
+	SCREEN.displayHUD();
 	GAME = new Technium();
 	controller = GAME.controller;
 	SHIP.refToScene(GAME.scene, GAME.camera)

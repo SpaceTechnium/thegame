@@ -23,7 +23,7 @@ class Screen {
         }, 200);
     }
     
-    static errorScreen( errorMessage ) {
+    errorScreen( errorMessage ) {
         document.body.innerHTML = "";
         document.body.style.backgroundColor = "#e53935";
         
@@ -42,14 +42,15 @@ class Screen {
         console.log(errorMessage);
     }
     
-    static displayHUD() {
-        
+    displayHUD() {
+        // Speedometer
         var speedometer = document.createElement("div");
         speedometer.setAttribute('class', 'speedometer');
         speedometer.setAttribute('id', 'speedometer');
         
         document.body.appendChild(speedometer);
 
+        // Ranking
         var ranking = document.createElement("div");
         ranking.setAttribute('class', 'ranking');
         
@@ -65,19 +66,28 @@ class Screen {
         
         document.body.appendChild(ranking);
         
-        updateRanking();
+        // Damage Indicator
+
+        var dmgIndicator = document.createElement("div");
+        dmgIndicator.setAttribute('class', 'dmgIndicator');
+        dmgIndicator.setAttribute('id', 'dmgIndicator');
+        
+        document.body.appendChild(dmgIndicator);
         
         console.log("HUD CREATED.")
     }
     
-    static updateRanking() {
+    updateRanking() {
         // TODO : Working dynamic ranking.
         document.getElementById("rankingBox").innerText = "\n<placeholder> <score>\n<placeholder> <score>\n<placeholder><score>\n<placeholder> <score>\n<placeholder> <score>\n<placeholder> <score>\n<placeholder> <score>\n<placeholder> <score>\n<placeholder> <score>\n<placeholder> <score>\n<Euzinho> <score>";
     }
 
-    // FIXME: Renomear pra updateSpeedometer ou assim?
-    static speedometer() {
-        document.getElementById("speedometer").innerText = Math.round(Math.sqrt(Math.pow(GAME.ship.frontSpeed + GAME.ship.backSpeed, 2) + Math.pow(GAME.ship.eftSpeed + GAME.ship.rightSpeed, 2)) * 212121) + " LT/s";
+    updateSpeedometer() {
+        document.getElementById("speedometer").innerText = Math.round(Math.sqrt(Math.pow(SHIP.frontSpeed + SHIP.backSpeed, 2) + Math.pow(SHIP.leftSpeed + SHIP.rightSpeed, 2)) * 212121) + " LT/s";
+    }
+
+    updateDmgIndicator() {
+        document.getElementById("dmgIndicator").innerText = "Status: " + Math.round(SHIP.damage * 100) + "%";
     }
     
     static resetVideo() {
@@ -166,5 +176,11 @@ class Screen {
             document.getElementById("settingsBtn").style.opacity = "1";
             document.getElementById("resetBtn").style.opacity = "1";
         }, 200);
+    }
+
+    update() {
+        this.updateRanking();
+        this.updateSpeedometer();
+        this.updateDmgIndicator();
     }
 }

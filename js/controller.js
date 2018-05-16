@@ -91,7 +91,7 @@ class Controller {
         if (document.pointerLockElement === document.body) {
             console.log('The pointer lock is now locked');
             document.addEventListener   ("mousemove", GAME.controller.mouseMove, false);
-            document.addEventListener   ("mousedown", GAME.ship.fire, false);
+            document.addEventListener   ("mousedown", GAME.ship.fireBullets);
             document.addEventListener   ("keydown",   GAME.controller.keyDown);
             document.addEventListener   ("keyup",     GAME.controller.keyUp);
 
@@ -107,6 +107,7 @@ class Controller {
     }
     
     activatePointerLock() {
-        document.body.requestPointerLock();
+        if (!(document.pointerLockElement === document.body))
+            document.body.requestPointerLock();
     }
 }
