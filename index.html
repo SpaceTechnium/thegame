@@ -9,52 +9,90 @@
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <link href="https://fonts.googleapis.com/css?family=Bangers" rel="stylesheet">
 
+    <!-- Favicon pro -->
+    <link rel="shortcut icon" href="resources/favicons/favicon.ico">
+    <link rel="icon" sizes="16x16 32x32 64x64" href="resources/favicons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="196x196" href="resources/favicons/favicon-192.png">
+    <link rel="icon" type="image/png" sizes="160x160" href="resources/favicons/favicon-160.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="resources/favicons/favicon-96.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="resources/favicons/favicon-64.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="resources/favicons/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="resources/favicons/favicon-16.png">
+    <link rel="apple-touch-icon" href="resources/favicons/favicon-57.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="resources/favicons/favicon-114.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="resources/favicons/favicon-72.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="resources/favicons/favicon-144.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="resources/favicons/favicon-60.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="resources/favicons/favicon-120.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="resources/favicons/favicon-76.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="resources/favicons/favicon-152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="resources/favicons/favicon-180.png">
+    <meta name="msapplication-TileColor" content="#FFFFFF">
+    <meta name="msapplication-TileImage" content="resources/favicons/favicon-144.png">
+    <meta name="msapplication-config" content="resources/favicons/browserconfig.xml">
+
     <script src="js/three.min.js"></script>
     <script src="js/mersenne-twister.js"></script>
-
     <script src="js/GLTFLoader.js"></script>
-
     <script src="js/CopyShader.js"></script>
     <script src="js/ConvolutionShader.js"></script>
-
     <script src="js/EffectComposer.js"></script>
     <script src="js/RenderPass.js"></script>
     <script src="js/ShaderPass.js"></script>
     <script src="js/DigitalGlitch.js"></script>
     <script src="js/BloomPass.js"></script>
     <script src="js/GlitchPass.js"></script>
-
+    
+    <!-- Added in refactor -->
+    <script src="js/screen.js"></script>
     <script src="js/connection.js"></script>
+    <script src="js/planet.js"></script>
+    <script src="js/solarSystem.js"></script>
+    <script src="js/controller.js"></script>
+    <script src="js/ship.js"></script>
+    <script src="js/ppc.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/main.js"></script>
 </head>
 <body>
     <!-- Background video -->
-    <video autoplay muted loop class="backgroundVideo" id="videoTutorial" src="resources/video/rain.mp4"></video>
-
+    <video autoplay muted loop class="backgroundVideo" id="videoTutorial" src="resources/video/mainMenu.mp4"></video>
+    
     <!-- Lateral Menu -->
     <div class="menu" id = "menu">
         
         <button class="videoButton" id="resetBtn">Reset Video</button>
-
+        
         <img src="resources/svg/logo.svg" class="logo">
-
+        
         <div class="aux" id = "aux">
             <button class="menuButton play" id="gameBtn">Start Game</button>
-
+            
             <button class="menuButton" id="loginBtn">Login</button>
-            <button class="menuButton" id="editorBtn">Customize</button>
+
+            <!-- TODO : Disable via JS-->
+            <button class="menuButton" id="editorBtn" disabled>Customize</button>
             <button class="menuButton" id="settingsBtn">Settings</button>
         </div>
 
+        <!-- Login -->
+        <div class="aux" id = "auxLogin" style="display:none;">
+            <button class="menuButton" id="inLoginBtn" style="opacity:0;">Login</button>
+            <button class="menuButton back" id="backLoginBtn" style="opacity:0;">Return to the Main Menu</button>
+        </div>
+        
         <!-- Settings -->
         <div class="aux" id = "auxSettings" style="display:none;">
-            <button class="menuButton" id="musicBtn" style="opacity:0;">Music</button>
-            <button class="menuButton" id="sndFxBtn" style="opacity:0;">Sound Effects</button>
-            <button class="menuButton" id="etcBtn" style="opacity:0;">Graphics Quality</button>
+            <button class="menuButton" id="musicBtn" style="opacity:0;" disabled>Music</button>
+            <button class="menuButton" id="sndFxBtn" style="opacity:0;" disabled>Sound Effects</button>
+            <!-- TODO: nao esquecer de mudar etcBtn pra gfxBtn no listener -->
+            <button class="menuButton" id="gfxBtn" style="opacity:0;" disabled>Graphics Quality</button>
             <button class="menuButton back" id="backSettingsBtn" style="opacity:0;">Save Settings and go back</button>
         </div>
     </div>
     
+    <!-- Game Audio --> 
+    <audio id="pewAudio" src="/resources/sounds/pew.flac" preload="auto"></audio>    
 </body>
-<script src="js/main.js"></script>
 
 </html> 
