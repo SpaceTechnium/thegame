@@ -163,7 +163,7 @@ class Ship {
         this.updateBullets();
     }
 
-    fireBullets() {
+    fireBullets(event, position = SHIP.model.position, rotation = SHIP.model.rotation) {
         // TODO: Verify that this is fixed
 
         var pewpew = document.getElementById('pewAudio')
@@ -182,8 +182,8 @@ class Ship {
             )
         );
 
-        SHIP.bullets[0].position.set(SHIP.model.position.x, SHIP.model.position.y, SHIP.model.position.z);
-        SHIP.bullets[0].rotation.set(SHIP.model.rotation.x, SHIP.model.rotation.y, SHIP.model.rotation.z);
+        SHIP.bullets[0].position.set(position.x, position.y, position.z);
+        SHIP.bullets[0].rotation.set(rotation.x, rotation.y, rotation.z);
 
 
         GAME.scene.add(SHIP.bullets[0]);
