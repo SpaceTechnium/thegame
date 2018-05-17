@@ -3,9 +3,9 @@
 //================================================
 const SHIP_SCALE = 0.2;
 class Ship {
-    constructor() {
+    constructor(name) {
         // Attributes
-        this.name = null;
+        this.name = name;
         this.damage = 1;
         this.score = 0;
         this.oscilation = 0;
@@ -26,7 +26,7 @@ class Ship {
 
         this.pointLook = new THREE.Mesh(new THREE.SphereGeometry(0.01, 4, 4), new THREE.MeshBasicMaterial({ color: 0xff0000 }));
         this.pointLook.visible = false;
-        this.pointLook.position.set(0, -0.75, -5.5);
+        this.pointLook.position.set(0, -0.75, -10.5);
     }
     
     setName ( name ) {
@@ -65,7 +65,7 @@ class Ship {
             function ( percent ) {
                 // TODO:
                 // Send values to loading Screen.
-                console.log( (( percent.loaded / percent.total * 100 ) * 0.9) + '% loaded...' );
+                console.log( (( percent.loaded / percent.total * 100 )) + '% loaded...' );
             },
             // Called when loading has errors.
             function ( error ) {
@@ -77,7 +77,7 @@ class Ship {
         );
 	}
     calc_oscilation() {
-        this.oscilation += 0.05 + (this.frontSpeed + this.backSpeed) * 1000 + (this.leftSpeed + this.rightSpeed) * 500;
+        this.oscilation += 0.1 + (this.frontSpeed + this.backSpeed) * 10 + (this.leftSpeed + this.rightSpeed) * 5;
     }
 
     addMovementParticles() {
@@ -96,8 +96,8 @@ class Ship {
 
         // TODO: por magic values como constantes
         this.particles[0].position.set(this.model.position.x, this.model.position.y, this.model.position.z);
-        this.particles[0].rotation.set(this.model.rotation.x, this.model.rotation.y + (this.leftSpeed + this.rightSpeed) * 8, this.model.rotation.z);
-        this.particles[0].scale.set(30 + this.frontSpeed * 200, 30 + this.frontSpeed * 200, this.frontSpeed * -1500);
+        this.particles[0].rotation.set(this.model.rotation.x, this.model.rotation.y + (this.leftSpeed + this.rightSpeed), this.model.rotation.z);
+        this.particles[0].scale.set(30 + this.frontSpeed * 100, 30 + this.frontSpeed * 100, this.frontSpeed * -150);
         GAME.scene.add(this.particles[0]);
     }
 
@@ -159,9 +159,9 @@ class Ship {
         // FIXME:
         // o 0.80 e o 0.20 sao percentagens de "Sensibilidade" Definem o quao depressa a nave se aproxima do centro do ecra.
         // 500, 200 e 2 e o q? INTUICAO. basicamente ajustam a velocidade de oscilacao. um é baseline e o outro varia com a velocidade (assim quanto + despressa mais oscila)
-        this.model.position.x = ((0.80 + this.frontSpeed * 2) * this.model.position.x + (0.2 - this.frontSpeed * 2) * shipVector.x) + Math.cos(this.oscilation)/(500 + (this.frontSpeed*200));
-		this.model.position.y = ((0.80 + this.frontSpeed * 2) * this.model.position.y + (0.2 - this.frontSpeed * 2) * shipVector.y) + Math.sin(this.oscilation)/(500 + (this.frontSpeed*200));
-		this.model.position.z = ((0.80 + this.frontSpeed * 2) * this.model.position.z + (0.2 - this.frontSpeed * 2) * shipVector.z);
+        this.model.position.x = ((0.97 + this.frontSpeed / 4) * this.model.position.x + (0.03 - this.frontSpeed / 4) * shipVector.x) + Math.cos(this.oscilation)*(2 + (this.frontSpeed)) * 0.001;
+		this.model.position.y = ((0.97 + this.frontSpeed / 4) * this.model.position.y + (0.03 - this.frontSpeed / 4) * shipVector.y) + Math.sin(this.oscilation)*(2 + (this.frontSpeed)) * 0.001;
+		this.model.position.z = ((0.97 + this.frontSpeed / 4) * this.model.position.z + (0.03 - this.frontSpeed / 4) * shipVector.z);
 
         this.model.up.set((this.leftSpeed + this.rightSpeed) * 30 * Math.cos(GAME.controller.yaw), GAME.controller.shipUp, (this.leftSpeed + this.rightSpeed) * 30 * -Math.sin(GAME.controller.yaw));
 

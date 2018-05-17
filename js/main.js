@@ -55,7 +55,7 @@ function readTextFile(file, callback) {
 }
 
 function startGame() {
-	SHIP = new Ship();
+	SHIP = new Ship("Claudex");
 	SHIP.load_model();
 	console.log(SHIP);
 

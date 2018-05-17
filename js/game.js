@@ -86,6 +86,9 @@ class Technium {
             for (var j = 0; j < this.players.length; j++) {
                 if (this.players[j].name == players[i].name) {
                     this.scene.remove(this.players.splice(j, 1));
+                    if (players[i].name == SHIP.name) {
+                        Screen.errorScreen("You perished! It was a good run!");
+                    }
                     break;
                 }
             }
@@ -128,7 +131,8 @@ class Technium {
                                  };
 
             this.players.unshift(newPlayer);
-            this.scene.add(newPlayer);
+            if (newPlayer.userData.name != SHIP.name)
+                this.scene.add(newPlayer);
             playerFound = false;
         }
         console.log(this.scene.children);
