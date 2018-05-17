@@ -56,6 +56,7 @@ class Technium {
 
         // Creates Ship object & model
         this.ship = ship;
+        this.players = [];
 
         // Controls
         this.controller = new Controller(this.camera, this.ppc);
@@ -78,6 +79,59 @@ class Technium {
 
     addShip(ship) {
         this.ship = ship;
+    }
+
+    deletePlayers( players ) {
+        for (var i = 0; i < players.length; i++) {
+            for (var j = 0; j < this.players.length; j++) {
+                if (this.players[j].name == players[i].name) {
+                    this.scene.remove(this.players.splice(j, 1));
+                    break;
+                }
+            }
+        }
+    }
+
+    updatePlayers( players ) {
+        var playerFound = false;
+        for (var i = 0; i < players.length; i++) {
+            for (var j = 0; j < this.players.length; j++) {
+                if (this.players[j].name == players[i].name) {
+                    this.players[j].position.x = players[i].pos_x;
+                    this.players[j].position.y = players[i].pos_y;
+                    this.players[j].position.z = players[i].pos_z;
+                    this.players[j].rotation.x = players[i].rot_x;
+                    this.players[j].rotation.y = players[i].rot_y;
+                    this.players[j].rotation.z = players[i].rot_z;
+
+                    this.players[j].userData = { score   :   players[i].score,
+                                                 shields :   players[i].shields,
+                                               };
+                    playerFound = true;
+                    break;
+                }
+            }
+            if (playerFound == true)
+                break;
+
+            var newPlayer = SHIP.model.clone();
+            newPlayer.position.x = players[i].pos_x;
+            newPlayer.position.y = players[i].pos_y;
+            newPlayer.position.z = players[i].pos_z;
+            newPlayer.rotation.x = players[i].rot_x;
+            newPlayer.rotation.y = players[i].rot_y;
+            newPlayer.rotation.z = players[i].rot_z;
+
+            newPlayer.userData = { name    : players[i].name,
+                                   score   : players[i].score,
+                                   shields : players[i].shields,
+                                 };
+
+            this.players.unshift(newPlayer);
+            this.scene.add(newPlayer);
+            playerFound = false;
+        }
+        console.log(this.scene.children);
     }
 
     // Start == animate function

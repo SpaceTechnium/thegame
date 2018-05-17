@@ -42,6 +42,18 @@ function animate() {
 	SCREEN.update();
 }
 
+function readTextFile(file, callback) {
+    var rawFile = new XMLHttpRequest();
+    rawFile.overrideMimeType("application/json");
+    rawFile.open("GET", file, true);
+    rawFile.onreadystatechange = function() {
+        if (rawFile.readyState === 4 && rawFile.status == "200") {
+            callback(rawFile.responseText);
+        }
+    }
+    rawFile.send(null);
+}
+
 function startGame() {
 	SHIP = new Ship();
 	SHIP.load_model();
@@ -54,6 +66,8 @@ function startGame() {
 	controller = GAME.controller;
 	SHIP.refToScene(GAME.scene, GAME.camera)
 	GAME.addShip(SHIP);
+	
+	
 
 	animate();
 }

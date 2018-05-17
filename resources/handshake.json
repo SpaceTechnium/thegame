@@ -1,0 +1,60 @@
+{
+    "type": "handshake",
+    "seed": 42,
+    "players": [
+        {
+            "name": "Claudex",
+            "pos_x": 2,
+            "pos_y": 3,
+            "pos_z": 4,
+            "rot_x": 5,
+            "rot_y": 6,
+            "rot_z": 7,
+            "score": 100,
+            "shields":1
+        },
+        {
+            "name": "Vitones",
+            "pos_x": 20,
+            "pos_y": 30,
+            "pos_z": 40,
+            "rot_x": 50,
+            "rot_y": 60,
+            "rot_z": 70,
+            "score": 140,
+            "shields":0.1
+        },
+        {
+            "name": "Pedroscas",
+            "pos_x": 200,
+            "pos_y": 300,
+            "pos_z": 400,
+            "rot_x": 500,
+            "rot_y": 600,
+            "rot_z": 700,
+            "score": 300,
+            "shields":1
+        }
+    ],
+    "bullets": [
+        {
+            "pos_x": 200,
+            "pos_y": 300,
+            "pos_z": 400
+        }
+    ],
+    "ranking": [
+        {
+            "name": "Vitones",
+            "points": 1000
+        },
+        {
+            "name": "Pedroscas",
+            "points": 300
+        },
+        {
+            "name": "Claudex",
+            "points": 0
+        }
+    ]    
+}

@@ -1,10 +1,11 @@
 //================================================
 // Ship.js
 //================================================
-const SHIP_SCALE = 0.02;
+const SHIP_SCALE = 0.2;
 class Ship {
     constructor() {
         // Attributes
+        this.name = null;
         this.damage = 1;
         this.score = 0;
         this.oscilation = 0;
@@ -20,13 +21,17 @@ class Ship {
 
         // Movement Helpers
         this.pointPlace = new THREE.Mesh(new THREE.SphereGeometry(0.02, 4, 4));
-        this.pointPlace.position.set(0, -0.075, -0.475);
+        this.pointPlace.position.set(0, -0.75, -3.75);
         this.pointPlace.visible = false;
 
         this.pointLook = new THREE.Mesh(new THREE.SphereGeometry(0.01, 4, 4), new THREE.MeshBasicMaterial({ color: 0xff0000 }));
         this.pointLook.visible = false;
-        this.pointLook.position.set(0, -0.075, -2.5);
-	}
+        this.pointLook.position.set(0, -0.75, -5.5);
+    }
+    
+    setName ( name ) {
+        this.name = name;
+    }
 	
 	refToScene (scene, camera) {
         this.scene = scene;
@@ -49,8 +54,12 @@ class Ship {
                 SHIP.model = gltf.scene.children[0];
                 SHIP.model.scale.set(SHIP_SCALE, SHIP_SCALE, SHIP_SCALE);
                 GAME.scene.add(SHIP.model);
-                // TODO:
-                // Starts generating planets.
+                
+                readTextFile("resources/handshake.json", function(text){
+                    var json = JSON.parse(text);
+                    console.log(json);
+                    GAME.updatePlayers(json.players);
+                });
             },
             // Called when loading is in progresses.
             function ( percent ) {
@@ -88,7 +97,7 @@ class Ship {
         // TODO: por magic values como constantes
         this.particles[0].position.set(this.model.position.x, this.model.position.y, this.model.position.z);
         this.particles[0].rotation.set(this.model.rotation.x, this.model.rotation.y + (this.leftSpeed + this.rightSpeed) * 8, this.model.rotation.z);
-        this.particles[0].scale.set(3 + this.frontSpeed * 20, 3 + this.frontSpeed * 20, this.frontSpeed * -150);
+        this.particles[0].scale.set(30 + this.frontSpeed * 200, 30 + this.frontSpeed * 200, this.frontSpeed * -1500);
         GAME.scene.add(this.particles[0]);
     }
 
@@ -173,7 +182,7 @@ class Ship {
         
         SHIP.bullets.unshift(
             new THREE.Mesh(
-                new THREE.SphereGeometry(0.07, 8, 8),
+                new THREE.SphereGeometry(0.7, 8, 8),
                 new THREE.MeshBasicMaterial(
                     {
                         color: 0x11ff11,
