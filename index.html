@@ -77,7 +77,9 @@
 
         <!-- Login -->
         <div class="aux" id = "auxLogin" style="display:none;">
-            <button class="menuButton" id="inLoginBtn" style="opacity:0;">Login</button>
+            <label class="loginLabel" id="loginLabel" for="loginTextBox">Nickname:</label>
+            <input class="menuInput" id="loginTextBox" type="text" name="Nickname" value="UFO..." maxlength="15">
+            <button class="menuButton play" id="inLoginBtn" style="opacity:0; margin-top: 10vh">Login</button>
             <button class="menuButton back" id="backLoginBtn" style="opacity:0;">Return to the Main Menu</button>
         </div>
         
@@ -85,7 +87,6 @@
         <div class="aux" id = "auxSettings" style="display:none;">
             <button class="menuButton" id="musicBtn" style="opacity:0;" disabled>Music</button>
             <button class="menuButton" id="sndFxBtn" style="opacity:0;" disabled>Sound Effects</button>
-            <!-- TODO: nao esquecer de mudar etcBtn pra gfxBtn no listener -->
             <button class="menuButton" id="gfxBtn" style="opacity:0;" disabled>Graphics Quality</button>
             <button class="menuButton back" id="backSettingsBtn" style="opacity:0;">Save Settings and go back</button>
         </div>

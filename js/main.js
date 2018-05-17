@@ -20,12 +20,12 @@ function main() {
 	resetBtn.addEventListener("click", Screen.resetVideo);
   
 	// Event Listener for clicks in Login button.
-	var settingsBtn = document.getElementById("loginBtn");
-	settingsBtn.addEventListener("click", Screen.openLogin);
+	var loginBtn = document.getElementById("loginBtn");
+	loginBtn.addEventListener("click", Screen.openLogin);
   
 	// Event Listener for clicks in Back Button in Login.
-	var backSettingsBtn = document.getElementById("backLoginBtn");
-	backSettingsBtn.addEventListener("click", Screen.closeLogin);
+	var backLoginBtn = document.getElementById("backLoginBtn");
+	backLoginBtn.addEventListener("click", Screen.closeLogin);
   
 	// Event Listener for clicks in Settings button.
 	var settingsBtn = document.getElementById("settingsBtn");
@@ -34,6 +34,10 @@ function main() {
 	// Event Listener for clicks in Back Button in Settings.
 	var backSettingsBtn = document.getElementById("backSettingsBtn");
 	backSettingsBtn.addEventListener("click", Screen.closeSettings);
+
+	// Event Listener for Login Button in Login.
+	var inLoginBtn = document.getElementById("inLoginBtn");
+	inLoginBtn.addEventListener("click", Screen.login);
 }
 
 function animate() {
@@ -55,7 +59,15 @@ function readTextFile(file, callback) {
 }
 
 function startGame() {
-	SHIP = new Ship("Claudex");
+	// Avoid invalid names.
+	var nickname = document.getElementById("loginTextBox");
+	if (nickname.value.length > 15) {
+		SCREEN = new Screen();
+		SCREEN.errorScreen(nickname.value + "?! What a silly name! It's too long!" )
+		return;
+	}
+
+	SHIP = new Ship(nickname.value);
 	SHIP.load_model();
 	console.log(SHIP);
 

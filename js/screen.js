@@ -116,6 +116,8 @@ class Screen {
             document.getElementById("auxLogin").style.display = "block";
             document.getElementById("inLoginBtn").style.opacity = "1";
             document.getElementById("backLoginBtn").style.opacity = "1";
+            document.getElementById("loginLabel").style.opacity = "1";
+            document.getElementById("loginTextBox").style.opacity = "1";
             
             // TODO
             // Login Screen
@@ -125,6 +127,8 @@ class Screen {
     static closeLogin() {
         document.getElementById("inLoginBtn").style.opacity = "0";
         document.getElementById("backLoginBtn").style.opacity = "0";
+        document.getElementById("loginTextBox").style.opacity = "0";
+        document.getElementById("loginLabel").style.opacity = "0";
         document.getElementById("menu").style.width = "25vw";
         
         setTimeout(function() {
@@ -137,6 +141,18 @@ class Screen {
             document.getElementById("settingsBtn").style.opacity = "1";
             document.getElementById("resetBtn").style.opacity = "1";
         }, 200);
+    }
+
+    static login() {
+        var nicknameBox = document.getElementById("loginTextBox");
+        var loginButton = document.getElementById("inLoginBtn");
+        if (nicknameBox.value.length < 16) {
+            nicknameBox.className = "menuInputAccepted";
+            nicknameBox.readOnly = true;
+            loginButton.disabled = true;
+            loginButton.className = "menuButton";
+            loginButton.style.fontSize = "4vw";
+        }
     }
     
     static openSettings() {
@@ -159,7 +175,7 @@ class Screen {
         }, 200);
     }
     
-    static Settings() {
+    static closeSettings() {
         document.getElementById("musicBtn").style.opacity = "0";
         document.getElementById("sndFxBtn").style.opacity = "0";
         document.getElementById("gfxBtn").style.opacity = "0";
