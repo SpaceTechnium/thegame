@@ -25,11 +25,11 @@ class Ship {
         this.pointLook = new THREE.Mesh(new THREE.SphereGeometry(0.01, 4, 4), new THREE.MeshBasicMaterial({ color: 0xff0000 }));
         this.pointLook.visible = false;
         this.pointLook.position.set(0, -0.075, -2.5);
-        // Add Movemments helpers to camera
 	}
 	
 	refToScene (scene, camera) {
-		this.scene = scene;
+        this.scene = scene;
+        this.scene.add(this.curveObject);
 		this.camera = camera;
 		camera.add(this.pointPlace);
 		camera.add(this.pointLook);
@@ -77,7 +77,7 @@ class Ship {
                 new THREE.SphereGeometry( 0.01, 8, 8 ),
                 new THREE.MeshBasicMaterial(
                     {
-                        color: 16358912 - (this.frontSpeed * 1000),
+                        color: 16358912 - (this.frontSpeed * 100),
                         side: THREE.DoubleSide
                     }
                 )
@@ -92,7 +92,7 @@ class Ship {
     }
 
     removeMovementParticles() {
-        if (this.particles.length > 100)
+        if ((this.particles.length > 1000) || (this.frontSpeed >= -0.001))
             GAME.scene.remove(this.particles.pop());
     }
 
@@ -166,8 +166,9 @@ class Ship {
     fireBullets() {
         // TODO: Verify that this is fixed
 
-        document.getElementById('pewAudio').currentTime = 0;
-        document.getElementById('pewAudio').play();
+        var pewpew = document.getElementById('pewAudio')
+        pewpew.currentTime = 0;
+        pewpew.play();
         
         SHIP.bullets.unshift(
             new THREE.Mesh(
