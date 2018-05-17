@@ -6,6 +6,7 @@ class Ship {
     constructor() {
         // Attributes
         this.damage = 1;
+        this.score = 0;
         this.oscilation = 0;
         this.frontSpeed = -0.8;
         this.leftSpeed  = 0;
