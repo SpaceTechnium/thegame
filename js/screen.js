@@ -14,7 +14,7 @@ class Screen {
         
         setTimeout(function() {
             menu.style.display = "none";
-            var videoTutorial = document.getElementById("videoTutorial")
+            var videoTutorial = document.getElementById("videoTutorial");
             videoTutorial.style.opacity = "0";
             
             setTimeout(function() {
@@ -41,6 +41,28 @@ class Screen {
         document.body.appendChild(transparentBox);
         console.log(errorMessage);
     }
+
+    planetConquest(conquest) {
+        var planetConquest = document.getElementById("planetConquest");
+
+        if (conquest.percent == -1) {
+            planetConquest.style.opacity = "0";
+            return;
+        }
+
+        planetConquest.style.opacity = "0.75";
+
+        var text = "Now conquering planet #" + conquest.id + "!";
+        
+        if (conquest.name != null) {
+            text += "\n" + conquest.name + " is the owner!\nThey control " + Math.round(conquest.percent * 100) + "%";
+        } else {
+            text += "\nConquered "+ Math.round(conquest.percent * 100) + "%";
+        }
+
+        planetConquest.appendChild(document.createTextNode(text));
+        
+    } 
     
     displayHUD() {
         // Speedometer
@@ -65,6 +87,14 @@ class Screen {
         ranking.appendChild(rankingTextBox);
         
         document.body.appendChild(ranking);
+
+        // Planet Conquest
+        var planetConquest = document.createElement("div");
+        planetConquest.setAttribute('class', 'planetConquest');
+        planetConquest.setAttribute('id', 'planetConquest');
+        planetConquest.style.opacity = "0.75";
+        
+        document.body.appendChild(planetConquest);
         
         // Damage Indicator
 

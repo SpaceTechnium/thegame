@@ -2,10 +2,10 @@
 
 var connection = (function() {
   var socket;
+  var nickname;
 
   function create(url) {
     socket = new WebSocket(url);
-    console.log("oi");
     attach_cbs();
   }
 
@@ -16,22 +16,49 @@ var connection = (function() {
 
     socket.onerror = function () {
       console.error("Connection error")
+      SCREEN.errorScreen(nickname.value.toUpperCase() + "?! What a silly name! It either exists or is too long!")
     }
 
     socket.onmessage = function (event) {
       var data = JSON.parse(event.data);
       var type = data.type;
 
-      if (type == "handshake") {
+      if (type == "update") {
         GAME.updatePlayers(data.players);
         GAME.updateBullets(data.bullets);
         GAME.universe.update(data.tick);
         SCREEN.updateRanking(data.ranking);
-
-      } else if (type == "bulletOut") {
+      } 
+      else if (type == "bulletOut") {
         GAME.deleteBullets(data.bullets);
-      } else if (type == "playerOut") {
+      } 
+      else if (type == "playerOut") {
         GAME.deletePlayers(data.players);
+      } 
+      else if (type == "planet") {
+        Screen.planetConquest(data.conquest);
+      } 
+      else if (type == "handshake") {
+          socket.send(JSON.stringify({
+          type : "nickname",
+          nick : nickname // Done
+        }));
+        SHIP = new Ship(nickname.value.toUpperCase());
+	      SHIP.load_model();
+
+        GAME = new Technium(data.seed);
+        SHIP.refToScene(GAME.scene, GAME.camera)
+        GAME.addShip(SHIP);
+
+        SCREEN = new Screen();
+	      SCREEN.fadeToBlack();
+      	SCREEN.displayHUD();
+
+        animate();
+      } 
+      else if (type == "kick") {
+        // TODO: Show the error.
+        SCREEN.errorScreen(nickname.value.toUpperCase() + "?! What a silly name!")
       }
 
     }
@@ -39,14 +66,12 @@ var connection = (function() {
 
   return {
     estabilish: function(url) {create(url);},
-    send: function(message) {socket.send(message);}
+    send: function(message) {socket.send(message);},
+    setNickname: function(nick) {nickname = nick;}
   }
 })();
+// tinha uma cena aqui que eu aapaguei ah okkey. ve se o main.js esta bem
 
-
-window.addEventListener("load", function () {
-  httpGetAsync("/requestserver", connection.estabilish); // false for synchronous request
-})
 
 function httpGetAsync(theUrl, callback)
 {

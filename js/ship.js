@@ -91,12 +91,6 @@ class Ship {
                 SHIP.model = gltf.scene.children[0];
                 SHIP.model.scale.set(SHIP_SCALE, SHIP_SCALE, SHIP_SCALE);
                 GAME.scene.add(SHIP.model);
-                readTextFile("resources/handshake.json", function(text) {
-                    var json = JSON.parse(text);
-                    console.log(json);
-                    GAME.updatePlayers(json.players);
-                    GAME.updateBullets(json.bullets);
-                });
             },
             // Called when loading is in progresses.
             function ( percent ) {
@@ -200,18 +194,18 @@ class Ship {
         
         // Remove Rocket Particles.
         this.removeMovementParticles();
-        connection.send(JSON.stringify({
-            type : "whereami",
-            ship : [ {
-                pos_x : position.x,
-                pos_y : position.y,
-                pos_z : position.z,
-                rot_x : rotation.x,
-                rot_y : rotation.y,
-                rot_z : rotation.z
-                }
-            ]
-        }));
+        // connection.send(JSON.stringify({
+        //     type : "whereami",
+        //     ship : [ {
+        //         pos_x : this.model.position.x,
+        //         pos_y : this.model.position.y,
+        //         pos_z : this.model.position.z,
+        //         rot_x : this.model.rotation.x,
+        //         rot_y : this.model.rotation.y,
+        //         rot_z : this.model.rotation.z
+        //         }
+        //     ]
+        // }));
     }
 
     fireBullets(event, position = SHIP.model.position, rotation = SHIP.model.rotation) {
@@ -236,7 +230,7 @@ class Ship {
 
         // GAME.scene.add(SHIP.bullets[0]);
 
-        // ONLINE BULLTER FIRE.
+        // ONLINE BULLET FIRE.
 
         connection.send(JSON.stringify({
             type : "newBullet",

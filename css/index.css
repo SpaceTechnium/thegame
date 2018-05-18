@@ -248,3 +248,15 @@ p {
     font-size: 2vw;
     color: #FAFAFA;
 }
+
+.planetConquest {
+    position: fixed;
+    background-color: #FFFFFF;
+    padding: 1%;
+    width: 16%;
+    opacity: 0.75;
+    text-align: left;
+    font-size: 2vw;
+    left: 42%;
+    top: 0;
+}

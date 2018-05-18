@@ -60,7 +60,7 @@ function readTextFile(file, callback) {
 
 function startGame() {
 	// Avoid invalid names provocated by HTML editing.
-	// TODO: Ask server if name is valid.
+
 	var nickname = document.getElementById("loginTextBox");
 	if (nickname.value.length > 15) {
 		SCREEN = new Screen();
@@ -68,22 +68,6 @@ function startGame() {
 		return;
 	}
 
-	connection.send(JSON.stringify({
-		type : "nickname",
-		nick : nickname.value
-	}));
-
-	SHIP = new Ship(nickname.value.toUpperCase());
-	SHIP.load_model();
-	console.log(SHIP);
-
-	SCREEN = new Screen();
-	SCREEN.fadeToBlack();
-	SCREEN.displayHUD();
-	GAME = new Technium();
-	controller = GAME.controller;
-	SHIP.refToScene(GAME.scene, GAME.camera)
-	GAME.addShip(SHIP);
-
-	animate();
+	connection.setNickname(nickname);
+	httpGetAsync("/requestserver", connection.estabilish); // false for synchronous request
 }

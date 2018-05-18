@@ -12,10 +12,9 @@ const AMBIENT_LIGHT_COLOR = 0xffffff;
 const AMBIENT_LIGHT_INTENSITY = 0.72;
 
 const SCENE_BG_COLOR      = "rgb(2, 0, 15)";
-const MERSENNE_TWISTER_SEED = 42;
 
 class Technium {
-    constructor() {
+    constructor(seed) {
         // Scene
         this.scene    = new THREE.Scene();
         this.scene.background = new THREE.Color(SCENE_BG_COLOR);
@@ -48,7 +47,7 @@ class Technium {
         this.scene.add(ambientLight);
 
         // This randomizer is essential for universally equal universes between different machines.
-        var randomizer = new MersenneTwister(MERSENNE_TWISTER_SEED);
+        var randomizer = new MersenneTwister(seed);
 
         // Create Solar systems
         this.universe = new Universe();
