@@ -11,7 +11,7 @@
             "rot_y": 6,
             "rot_z": 7,
             "score": 100,
-            "shields":1
+            "shields": 1
         },
         {
             "name": "VITONES",
@@ -22,7 +22,7 @@
             "rot_y": 60,
             "rot_z": 70,
             "score": 140,
-            "shields":0.1
+            "shields": 0.1
         },
         {
             "name": "PEDROSCAS",
@@ -33,14 +33,21 @@
             "rot_y": 600,
             "rot_z": 700,
             "score": 300,
-            "shields":1
+            "shields": 1
         }
     ],
     "bullets": [
         {
-            "pos_x": 200,
-            "pos_y": 300,
-            "pos_z": 400
+            "id" : "something",
+            "pos_x": 5,
+            "pos_y": 3,
+            "pos_z": 4
+        },
+        {
+            "id" : "else",
+            "pos_x": 40,
+            "pos_y": 30,
+            "pos_z": 1
         }
     ],
     "ranking": [

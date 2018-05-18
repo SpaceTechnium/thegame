@@ -67,9 +67,9 @@ class SolarSystem {
     }
 
     // Update Planets.
-    update() {
+    update(tick) {
         for (var i = 0; i < this.numPlanets; i++) {
-            this.arrayPlanets[i].update();
+            this.arrayPlanets[i].update(tick);
         }
     }
 
@@ -115,9 +115,9 @@ class Universe {
             this.solarSystems[i].spawn(scene, randomizer);
     }
 
-    update() {
+    update(tick) {
         // Update Solar Systems.
         for (var i = 0; i < (SOLAR_SYSTEM_W * SOLAR_SYSTEM_H); i++)
-            this.solarSystems[i].update();
+            this.solarSystems[i].update(tick);
     }
 }

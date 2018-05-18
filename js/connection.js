@@ -19,7 +19,21 @@ var connection = (function() {
     }
 
     socket.onmessage = function (event) {
-      console.log(event.data);
+      var data = JSON.parse(event.data);
+      var type = data.type;
+
+      if (type == "handshake") {
+        GAME.updatePlayers(data.players);
+        GAME.updateBullets(data.bullets);
+        GAME.universe.update(data.tick);
+        SCREEN.updateRanking(data.ranking);
+
+      } else if (type == "bulletOut") {
+        GAME.deleteBullets(data.bullets);
+      } else if (type == "playerOut") {
+        GAME.deletePlayers(data.players);
+      }
+
     }
   }
 

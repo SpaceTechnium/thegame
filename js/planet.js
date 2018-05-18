@@ -29,8 +29,7 @@ class Planet {
     }
 
     // Update planet position.
-    // TODO: Replace performance.now() with server time.
-    update() {
+    update(tick) {
         this.planet.position.set(this.vectorPos.x + this.semiminor * Math.cos(performance.now()*this.speed), this.vectorPos.z, this.vectorPos.y + this.semimajor * Math.sin(performance.now()*this.speed));
     }
 }

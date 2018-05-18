@@ -73,7 +73,6 @@ class Ship {
 	
 	refToScene (scene, camera) {
         this.scene = scene;
-        this.scene.add(this.curveObject);
 		this.camera = camera;
 		camera.add(this.pointPlace);
 		camera.add(this.pointLook);
@@ -92,6 +91,12 @@ class Ship {
                 SHIP.model = gltf.scene.children[0];
                 SHIP.model.scale.set(SHIP_SCALE, SHIP_SCALE, SHIP_SCALE);
                 GAME.scene.add(SHIP.model);
+                readTextFile("resources/handshake.json", function(text) {
+                    var json = JSON.parse(text);
+                    console.log(json);
+                    GAME.updatePlayers(json.players);
+                    GAME.updateBullets(json.bullets);
+                });
             },
             // Called when loading is in progresses.
             function ( percent ) {
@@ -102,7 +107,6 @@ class Ship {
             function ( error ) {
                 // TODO: This should bring us back to the main menu.
                 SCREEN.errorScreen( 'An error happened while loading resources. ' +  error);
-                
             }
         );
 	}
@@ -196,7 +200,18 @@ class Ship {
         
         // Remove Rocket Particles.
         this.removeMovementParticles();
-        this.updateBullets();
+        connection.send(JSON.stringify({
+            type : "whereami",
+            ship : [ {
+                pos_x : position.x,
+                pos_y : position.y,
+                pos_z : position.z,
+                rot_x : rotation.x,
+                rot_y : rotation.y,
+                rot_z : rotation.z
+                }
+            ]
+        }));
     }
 
     fireBullets(event, position = SHIP.model.position, rotation = SHIP.model.rotation) {
@@ -204,21 +219,37 @@ class Ship {
         pewpew.currentTime = 0;
         pewpew.play();
         
-        SHIP.bullets.unshift(
-            new THREE.Mesh(
-                new THREE.SphereGeometry(BULLET_SCALE, BULLET_PRECISION, BULLET_PRECISION),
-                new THREE.MeshBasicMaterial(
-                    {
-                        color: BULLET_COLOR,
-                    }
-                )
-            )
-        );
+        // OFFLINE BULLET FIRE.
+        // SHIP.bullets.unshift(
+        //     new THREE.Mesh(
+        //         new THREE.SphereGeometry(BULLET_SCALE, BULLET_PRECISION, BULLET_PRECISION),
+        //         new THREE.MeshBasicMaterial(
+        //             {
+        //                 color: BULLET_COLOR,
+        //             }
+        //         )
+        //     )
+        // );
 
-        SHIP.bullets[0].position.set(position.x, position.y, position.z);
-        SHIP.bullets[0].rotation.set(rotation.x, rotation.y, rotation.z);
+        // SHIP.bullets[0].position.set(position.x, position.y, position.z);
+        // SHIP.bullets[0].rotation.set(rotation.x, rotation.y, rotation.z);
 
-        GAME.scene.add(SHIP.bullets[0]);
+        // GAME.scene.add(SHIP.bullets[0]);
+
+        // ONLINE BULLTER FIRE.
+
+        connection.send(JSON.stringify({
+            type : "newBullet",
+            bullet : [ {
+                pos_x : position.x,
+                pos_y : position.y,
+                pos_z : position.z,
+                rot_x : rotation.x,
+                rot_y : rotation.y,
+                rot_z : rotation.z
+                }
+            ]
+        }));
     }
 
     updateBullets() {

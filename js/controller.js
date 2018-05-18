@@ -88,7 +88,6 @@ class Controller {
     }
 
     lockChange() {
-        // Here mofo
         if (document.pointerLockElement === document.body) {
             console.log('The pointer lock is now locked');
             document.addEventListener   ("mousemove", GAME.controller.mouseMove, false);

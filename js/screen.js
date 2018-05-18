@@ -77,9 +77,26 @@ class Screen {
         console.log("HUD CREATED.")
     }
     
-    updateRanking() {
-        // TODO : Working dynamic ranking.
-        document.getElementById("rankingBox").innerText = "\n<placeholder> <score>\n<placeholder> <score>\n<placeholder><score>\n<placeholder> <score>\n<placeholder> <score>\n<placeholder> <score>\n<placeholder> <score>\n<placeholder> <score>\n<placeholder> <score>\n<placeholder> <score>\n<Euzinho> <score>";
+    updateRanking(ranking) {
+        var rankingText = "Top 10";
+        var inTop10     = false;
+
+        for (var i = 0; i < 10; i++) {
+            rankingText += "\n" + (i+1) + ". " + ranking[i].name + " " + ranking[i].points;
+            if (ranking[i].name == SHIP.name) {
+                inTop10 = true;
+            }
+        }
+        if (inTop10 == false) {
+            for (var i = 10; i < ranking.length; i++) {
+                if (ranking[i].name == SHIP.name) {
+                    rankingText += "\n" + (i+1) + ". " + ranking[i].name + " " + ranking[i].points;
+                    break;
+                } 
+            }
+        }
+
+        document.getElementById("rankingBox").innerText = rankingText;
     }
 
     updateSpeedometer() {
@@ -195,7 +212,6 @@ class Screen {
     }
 
     update() {
-        this.updateRanking();
         this.updateSpeedometer();
         this.updateDmgIndicator();
     }

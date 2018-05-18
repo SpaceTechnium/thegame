@@ -15,7 +15,7 @@ const SCENE_BG_COLOR      = "rgb(2, 0, 15)";
 const MERSENNE_TWISTER_SEED = 42;
 
 class Technium {
-    constructor(ship) {
+    constructor() {
         // Scene
         this.scene    = new THREE.Scene();
         this.scene.background = new THREE.Color(SCENE_BG_COLOR);
@@ -56,10 +56,11 @@ class Technium {
         this.universe.spawn(this.scene, randomizer);
 
         // Creates Ship object & model
-        this.ship = ship;
+        this.ship = null;
 
-        // Creates Players Array.
+        // Creates Players and Bullets Array.
         this.players = [];
+        this.bullets = [];
 
         // Controls
         this.controller = new Controller(this.camera, this.ppc);
@@ -143,10 +144,55 @@ class Technium {
         }
     }
 
+    deleteBullets( bullets ) {
+        for (var i = 0; i < bullets.length; i++) {
+            for (var j = 0; j < this.bullets.length; j++) {
+                if (this.bullets[j].name == bullets[i].name) {
+                    this.scene.remove(this.bullets.splice(j, 1));
+                    break;
+                }
+            }
+        }
+    }
+
+    updateBullets( bullets ) {
+        var bulletFound = false;
+        for (var i = 0; i < bullets.length; i++) {
+            for (var j = 0; j < this.bullets.length; j++) {
+                if (this.bullets[j].userData.id == bullets[i].id) {
+                    this.bullets[j].position.x = bullets[i].pos_x;
+                    this.bullets[j].position.y = bullets[i].pos_y;
+                    this.bullets[j].position.z = bullets[i].pos_z;
+                    bulletFound = true;
+                    break;
+                }
+            }
+            if (bulletFound == true)
+                break;
+
+            var newBullet = new THREE.Mesh(
+                new THREE.SphereGeometry(BULLET_SCALE, BULLET_PRECISION, BULLET_PRECISION),
+                new THREE.MeshBasicMaterial(
+                    {
+                        color: BULLET_COLOR,
+                    }
+                )
+            );
+            newBullet.position.x = bullets[i].pos_x;
+            newBullet.position.y = bullets[i].pos_y;
+            newBullet.position.z = bullets[i].pos_z;
+            newBullet.userData = { 
+                id    : bullets[i].id,
+            };
+
+            this.bullets.unshift(newBullet);
+            this.scene.add(newBullet);
+            bulletFound = false;
+        }
+    }
+
     // Start == animate function
     animate_loop() {
-        // TODO: Update all solar Systems
-        this.universe.update();
 
         var shipVector = this.ship.pointPlace.getWorldPosition(new THREE.Vector3());
         this.ship.calc_oscilation();

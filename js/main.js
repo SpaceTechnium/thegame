@@ -68,6 +68,11 @@ function startGame() {
 		return;
 	}
 
+	connection.send(JSON.stringify({
+		type : "nickname",
+		nick : nickname.value
+	}));
+
 	SHIP = new Ship(nickname.value.toUpperCase());
 	SHIP.load_model();
 	console.log(SHIP);
