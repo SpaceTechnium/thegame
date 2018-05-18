@@ -141,37 +141,44 @@ class Ship {
             if (this.frontSpeed > -SHIP_MAX_FRONT_SPEED)
                 this.frontSpeed  -= SHIP_BASE_ACCELERATION + this.frontSpeed * SHIP_FRONT_FRICTION;
             this.addMovementParticles();
+            document.getElementById("boosterAudio").play();
         } else {
             if (this.frontSpeed < 0)
                 this.frontSpeed /= SHIP_RETARDATION;
+            document.getElementById("boosterAudio").pause();
         }
 
         // Left movement 'A' Key
         if (c.key_a == true) {
 			if (this.leftSpeed > -SHIP_MAX_ELSE_SPEED)
-				this.leftSpeed = this.leftSpeed * SHIP_ACCELERATION - SHIP_BASE_ACCELERATION;
+                this.leftSpeed = this.leftSpeed * SHIP_ACCELERATION - SHIP_BASE_ACCELERATION;
+            document.getElementById("boosterLateral").play();
 		} else {
 			if (this.leftSpeed < 0)
-				this.leftSpeed /= SHIP_RETARDATION;
+                this.leftSpeed /= SHIP_RETARDATION;
+            document.getElementById("boosterLateral").pause();
         }
         
         // Right movement 'D' key
         if (c.key_d == true) {
 			if (this.rightSpeed < SHIP_MAX_ELSE_SPEED)
-				this.rightSpeed = this.rightSpeed * SHIP_ACCELERATION + SHIP_BASE_ACCELERATION;
+                this.rightSpeed = this.rightSpeed * SHIP_ACCELERATION + SHIP_BASE_ACCELERATION;
+            document.getElementById("boosterLateral").play();
 		} else {
 			if (this.rightSpeed > 0)
-				this.rightSpeed /= SHIP_RETARDATION;
+                this.rightSpeed /= SHIP_RETARDATION;
+            document.getElementById("boosterLateral").pause();
         }
         
         // Back movement 'S' key
         if (c.key_s == true) {
 			if (this.backSpeed < SHIP_MAX_ELSE_SPEED)
-				this.backSpeed = this.backSpeed * SHIP_ACCELERATION + SHIP_BASE_ACCELERATION;
-				
+                this.backSpeed = this.backSpeed * SHIP_ACCELERATION + SHIP_BASE_ACCELERATION;
+            document.getElementById("boosterLateral").play();	
 		} else {
 			if (this.backSpeed > 0)
-				this.backSpeed /= SHIP_RETARDATION;
+                this.backSpeed /= SHIP_RETARDATION;
+            document.getElementById("boosterLateral").pause();
         }
     }
 

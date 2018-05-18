@@ -138,6 +138,7 @@ class Screen {
     }
     
     static resetVideo() {
+        document.getElementById("buttonClick").play();
         // Fades video to black and then resets it.
         var vid = document.getElementById("videoTutorial");
         vid.style.opacity = "0";
@@ -149,6 +150,7 @@ class Screen {
     }
     
     static openLogin() {
+        document.getElementById("buttonClick").play();
         document.getElementById("gameBtn").style.opacity = "0";
         document.getElementById("loginBtn").style.opacity = "0";
         document.getElementById("editorBtn").style.opacity = "0";
@@ -172,6 +174,7 @@ class Screen {
     }
     
     static closeLogin() {
+        document.getElementById("buttonClick").play();
         document.getElementById("inLoginBtn").style.opacity = "0";
         document.getElementById("backLoginBtn").style.opacity = "0";
         document.getElementById("loginTextBox").style.opacity = "0";
@@ -191,6 +194,7 @@ class Screen {
     }
 
     static login() {
+        document.getElementById("buttonClick").play();
         var nicknameBox = document.getElementById("loginTextBox");
         var loginButton = document.getElementById("inLoginBtn");
         if (nicknameBox.value.length < 16) {
@@ -203,6 +207,7 @@ class Screen {
     }
     
     static openSettings() {
+        document.getElementById("buttonClick").play();
         document.getElementById("gameBtn").style.opacity = "0";
         document.getElementById("loginBtn").style.opacity = "0";
         document.getElementById("editorBtn").style.opacity = "0";
@@ -223,6 +228,7 @@ class Screen {
     }
     
     static closeSettings() {
+        document.getElementById("buttonClick").play();
         document.getElementById("musicBtn").style.opacity = "0";
         document.getElementById("sndFxBtn").style.opacity = "0";
         document.getElementById("gfxBtn").style.opacity = "0";

@@ -70,8 +70,6 @@ var connection = (function() {
     setNickname: function(nick) {nickname = nick;}
   }
 })();
-// tinha uma cena aqui que eu aapaguei ah okkey. ve se o main.js esta bem
-
 
 function httpGetAsync(theUrl, callback)
 {

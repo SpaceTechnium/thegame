@@ -60,6 +60,8 @@ function readTextFile(file, callback) {
 
 function startGame() {
 	// Avoid invalid names provocated by HTML editing.
+	document.getElementById("buttonClick").play();
+	document.getElementById("gameEnterAudio").play();
 
 	var nickname = document.getElementById("loginTextBox");
 	if (nickname.value.length > 15) {
