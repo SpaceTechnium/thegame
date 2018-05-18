@@ -3,7 +3,7 @@
     "seed": 42,
     "players": [
         {
-            "name": "Claudex",
+            "name": "CLAUDEX",
             "pos_x": 2,
             "pos_y": 3,
             "pos_z": 4,
@@ -14,7 +14,7 @@
             "shields":1
         },
         {
-            "name": "Vitones",
+            "name": "VITONES",
             "pos_x": 20,
             "pos_y": 30,
             "pos_z": 40,
@@ -25,7 +25,7 @@
             "shields":0.1
         },
         {
-            "name": "Pedroscas",
+            "name": "PEDROSCAS",
             "pos_x": 200,
             "pos_y": 300,
             "pos_z": 400,
@@ -45,15 +45,15 @@
     ],
     "ranking": [
         {
-            "name": "Vitones",
+            "name": "VITONES",
             "points": 1000
         },
         {
-            "name": "Pedroscas",
+            "name": "PEDROSCAS",
             "points": 300
         },
         {
-            "name": "Claudex",
+            "name": "CLAUDEX",
             "points": 0
         }
     ]    

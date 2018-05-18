@@ -37,7 +37,7 @@ class Technium {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(this.renderer.domElement);
 
-        // Threejs Composer
+        // Three.js Composer
         this.ppc = new PPC(this.renderer, this.scene, this.camera);
         
         // Creates soft ambient light, that illuminates everything uniformly.
@@ -47,6 +47,7 @@ class Technium {
         );
         this.scene.add(ambientLight);
 
+        // This randomizer is essential for universally equal universes between different machines.
         var randomizer = new MersenneTwister(MERSENNE_TWISTER_SEED);
 
         // Create Solar systems
@@ -56,6 +57,8 @@ class Technium {
 
         // Creates Ship object & model
         this.ship = ship;
+
+        // Creates Players Array.
         this.players = [];
 
         // Controls
@@ -87,6 +90,7 @@ class Technium {
                 if (this.players[j].name == players[i].name) {
                     this.scene.remove(this.players.splice(j, 1));
                     if (players[i].name == SHIP.name) {
+                        // TODO: Create Lost Screen.
                         Screen.errorScreen("You perished! It was a good run!");
                     }
                     break;
@@ -107,9 +111,10 @@ class Technium {
                     this.players[j].rotation.y = players[i].rot_y;
                     this.players[j].rotation.z = players[i].rot_z;
 
-                    this.players[j].userData = { score   :   players[i].score,
-                                                 shields :   players[i].shields,
-                                               };
+                    this.players[j].userData = {
+                        score   :   players[i].score,
+                        shields :   players[i].shields,
+                    };
                     playerFound = true;
                     break;
                 }
@@ -125,17 +130,17 @@ class Technium {
             newPlayer.rotation.y = players[i].rot_y;
             newPlayer.rotation.z = players[i].rot_z;
 
-            newPlayer.userData = { name    : players[i].name,
-                                   score   : players[i].score,
-                                   shields : players[i].shields,
-                                 };
+            newPlayer.userData = { 
+                name    : players[i].name,
+                score   : players[i].score,
+                shields : players[i].shields,
+            };
 
             this.players.unshift(newPlayer);
             if (newPlayer.userData.name != SHIP.name)
                 this.scene.add(newPlayer);
             playerFound = false;
         }
-        console.log(this.scene.children);
     }
 
     // Start == animate function

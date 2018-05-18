@@ -19,6 +19,7 @@ class Controller {
         this.yaw    = 0;
         this.pitch  = 0;
         this.shipUp = -1;
+        
         this.yawMatrix    = new THREE.Matrix4();
         this.pitchMatrix  = new THREE.Matrix4();
         this.rotateMatrix = new THREE.Matrix4();

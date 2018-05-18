@@ -8,10 +8,12 @@ const SEMI_MAJOR		= 35;
 const SEMI_MINOR		= 35;
 const SEMI_MAJOR_OFFSET	= 10;
 const SEMI_MINOR_OFFSET	= 10;
+const PLANET_PRECISION  = 16;
 const PLANET_MIN_SPEED  = 0.00001;
 const PLANET_MAX_SPEED  = 0.00009;
 const PLANET_MIN_RADIUS = 0.1;
 const PLANET_MAX_RADIUS = 5;
+const PLANET_COLOR_FACTOR = 3;
 const MIN_PLANETS_IN_SYSTEM = 1;
 const MAX_PLANETS_IN_SYSTEM = 10;
 const SYSTEM_X_DIST     = 100;
@@ -20,6 +22,8 @@ const SYSTEM_DIST_MAX_HEIGHT_DIFF = 300;
 const SYSTEM_GLOBAL_HEIGHT_VARIATION = 50;
 const SUN_MIN_RADIUS    = 1;
 const SUN_MAX_RADIUS    = 30;
+const SUN_GREEN_BASE    = 0.85;
+const SUN_BLUE_BASE     = 0.15;
 
 class SolarSystem {
     // Arguments:
@@ -39,7 +43,7 @@ class SolarSystem {
       
     spawn(scene, randomizer) {
         // Spawn Sun.
-        this.sun = new THREE.Mesh( new THREE.SphereGeometry( this.sunRadius, 16, 16 ), new THREE.MeshToonMaterial( {color: new THREE.Color( 1, 0.85 + randomizer.genrand_real1() * 0.15, 0.15 + randomizer.genrand_real1() * 0.85 )} ) );
+        this.sun = new THREE.Mesh( new THREE.SphereGeometry( this.sunRadius, PLANET_PRECISION, PLANET_PRECISION ), new THREE.MeshToonMaterial( {color: new THREE.Color( 1, SUN_GREEN_BASE + randomizer.genrand_real1() * SUN_BLUE_BASE, SUN_BLUE_BASE + randomizer.genrand_real1() * SUN_GREEN_BASE )} ) );
         this.sun.position.set(this.pos.x, this.pos.z, this.pos.y);
         scene.add(this.sun);
 
@@ -47,12 +51,12 @@ class SolarSystem {
         for (var i = 0; i < this.numPlanets; i++) {
             var planet = new THREE.Mesh(
                 new THREE.SphereGeometry(
-                    this.infoPlanets[i*4], 16, 16),
+                    this.infoPlanets[i*4], PLANET_PRECISION, PLANET_PRECISION),
                     new THREE.MeshToonMaterial(
                         {color: new THREE.Color(
-                            randomizer.genrand_real1() / 4,
-                            randomizer.genrand_real1() / 2,
-                            randomizer.genrand_real1() / 2 )
+                            randomizer.genrand_real1() / PLANET_COLOR_FACTOR,
+                            randomizer.genrand_real1() / PLANET_COLOR_FACTOR,
+                            randomizer.genrand_real1() / PLANET_COLOR_FACTOR )
                         }
                     )
                 );

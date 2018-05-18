@@ -59,15 +59,16 @@ function readTextFile(file, callback) {
 }
 
 function startGame() {
-	// Avoid invalid names.
+	// Avoid invalid names provocated by HTML editing.
+	// TODO: Ask server if name is valid.
 	var nickname = document.getElementById("loginTextBox");
 	if (nickname.value.length > 15) {
 		SCREEN = new Screen();
-		SCREEN.errorScreen(nickname.value + "?! What a silly name! It's too long!" )
+		SCREEN.errorScreen(nickname.value.toUpperCase() + "?! What a silly name! It's too long!" )
 		return;
 	}
 
-	SHIP = new Ship(nickname.value);
+	SHIP = new Ship(nickname.value.toUpperCase());
 	SHIP.load_model();
 	console.log(SHIP);
 
@@ -78,8 +79,6 @@ function startGame() {
 	controller = GAME.controller;
 	SHIP.refToScene(GAME.scene, GAME.camera)
 	GAME.addShip(SHIP);
-	
-	
 
 	animate();
 }
