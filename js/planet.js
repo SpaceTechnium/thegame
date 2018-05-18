@@ -30,6 +30,6 @@ class Planet {
 
     // Update planet position.
     update(tick) {
-        this.planet.position.set(this.vectorPos.x + this.semiminor * Math.cos(performance.now()*this.speed), this.vectorPos.z, this.vectorPos.y + this.semimajor * Math.sin(performance.now()*this.speed));
+        this.planet.position.set(this.vectorPos.x + this.semiminor * Math.cos(tick * this.speed), this.vectorPos.z, this.vectorPos.y + this.semimajor * Math.sin(tick * this.speed));
     }
 }
