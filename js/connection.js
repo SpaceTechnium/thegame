@@ -2,7 +2,6 @@
 
 var connection = (function() {
   var socket;
-  var nickname;
 
   function create(url) {
     socket = new WebSocket(url);
@@ -24,6 +23,7 @@ var connection = (function() {
       var type = data.type;
 
       if (type == "update") {
+        console.log(data);
         GAME.updatePlayers(data.players);
         GAME.updateBullets(data.bullets);
         GAME.universe.update(data.tick);
@@ -39,11 +39,11 @@ var connection = (function() {
         Screen.planetConquest(data.conquest);
       } 
       else if (type == "handshake") {
-          socket.send(JSON.stringify({
-          type : "nickname",
-          nick : nickname // Done
-        }));
-        SHIP = new Ship(nickname.value.toUpperCase());
+        socket.send(JSON.stringify({
+          type: 'nickname',
+          nick: nickname
+        }))
+        SHIP = new Ship(nickname);
 	      SHIP.load_model();
 
         GAME = new Technium(data.seed);
