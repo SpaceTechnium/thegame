@@ -190,6 +190,7 @@ class Ship {
     }
 
     update(shipVector) {
+        console.log(this.model.position);
         this.model.position.x = ((SHIP_FOLLOW_ORIGIN_PERCENT + this.frontSpeed / SHIP_FOLLOW_SPEED_FACTOR) * this.model.position.x + (SHIP_FOLLOW_DEST_PERCENT - this.frontSpeed / SHIP_FOLLOW_SPEED_FACTOR) * shipVector.x) + Math.cos(this.oscilation)*(SHIP_FOLLOW_OSCILATION_BASE + (this.frontSpeed)) * SHIP_FOLLOW_OSCILATION_FACTOR;
 		this.model.position.y = ((SHIP_FOLLOW_ORIGIN_PERCENT + this.frontSpeed / SHIP_FOLLOW_SPEED_FACTOR) * this.model.position.y + (SHIP_FOLLOW_DEST_PERCENT - this.frontSpeed / SHIP_FOLLOW_SPEED_FACTOR) * shipVector.y) + Math.sin(this.oscilation)*(SHIP_FOLLOW_OSCILATION_BASE + (this.frontSpeed)) * SHIP_FOLLOW_OSCILATION_FACTOR;
 		this.model.position.z = ((SHIP_FOLLOW_ORIGIN_PERCENT + this.frontSpeed / SHIP_FOLLOW_SPEED_FACTOR) * this.model.position.z + (SHIP_FOLLOW_DEST_PERCENT - this.frontSpeed / SHIP_FOLLOW_SPEED_FACTOR) * shipVector.z);
@@ -201,18 +202,19 @@ class Ship {
         
         // Remove Rocket Particles.
         this.removeMovementParticles();
-        // connection.send(JSON.stringify({
-        //     type : "whereami",
-        //     ship : [ {
-        //         pos_x : this.model.position.x,
-        //         pos_y : this.model.position.y,
-        //         pos_z : this.model.position.z,
-        //         rot_x : this.model.rotation.x,
-        //         rot_y : this.model.rotation.y,
-        //         rot_z : this.model.rotation.z
-        //         }
-        //     ]
-        // }));
+        
+        connection.send(JSON.stringify({
+            type : "whereami",
+            ship : {
+                pos_x : this.model.position.x,
+                pos_y : this.model.position.y,
+                pos_z : this.model.position.z,
+                rot_x : this.model.rotation.x,
+                rot_y : this.model.rotation.y,
+                rot_z : this.model.rotation.z
+                }
+        }));
+        this.updateBullets()
     }
 
     fireBullets(event, position = SHIP.model.position, rotation = SHIP.model.rotation) {
@@ -221,21 +223,21 @@ class Ship {
         pewpew.play();
         
         // OFFLINE BULLET FIRE.
-        // SHIP.bullets.unshift(
-        //     new THREE.Mesh(
-        //         new THREE.SphereGeometry(BULLET_SCALE, BULLET_PRECISION, BULLET_PRECISION),
-        //         new THREE.MeshBasicMaterial(
-        //             {
-        //                 color: BULLET_COLOR,
-        //             }
-        //         )
-        //     )
-        // );
+        SHIP.bullets.unshift(
+            new THREE.Mesh(
+                new THREE.SphereGeometry(BULLET_SCALE, BULLET_PRECISION, BULLET_PRECISION),
+                new THREE.MeshBasicMaterial(
+                    {
+                        color: BULLET_COLOR,
+                    }
+                )
+            )
+        );
 
-        // SHIP.bullets[0].position.set(position.x, position.y, position.z);
-        // SHIP.bullets[0].rotation.set(rotation.x, rotation.y, rotation.z);
-
-        // GAME.scene.add(SHIP.bullets[0]);
+        SHIP.bullets[0].position.set(position.x, position.y, position.z);
+        SHIP.bullets[0].rotation.set(rotation.x, rotation.y, rotation.z);
+        
+        GAME.scene.add(SHIP.bullets[0]);
 
         // ONLINE BULLET FIRE.
 

@@ -8,6 +8,7 @@ var SCREEN = null;
 var GAME = null;
 var SHIP = null;
 var controller = null;
+var nickname = null;
 
 function main() {
 	// Event Listener for clicks in 'Play Game' Button.
@@ -63,13 +64,14 @@ function startGame() {
 	document.getElementById("buttonClick").play();
 	document.getElementById("gameEnterAudio").play();
 
-	var nickname = document.getElementById("loginTextBox");
+	nickname = document.getElementById("loginTextBox");
 	if (nickname.value.length > 15) {
 		SCREEN = new Screen();
 		SCREEN.errorScreen(nickname.value.toUpperCase() + "?! What a silly name! It's too long!" )
 		return;
 	}
 
-	connection.setNickname(nickname);
+	nickname = nickname.value.toUpperCase();
+
 	httpGetAsync("/requestserver", connection.estabilish); // false for synchronous request
 }

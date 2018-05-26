@@ -108,19 +108,23 @@ class Screen {
     }
     
     updateRanking(ranking) {
-        var rankingText = "Top 10";
+        var rankingText = "";
         var inTop10     = false;
 
-        for (var i = 0; i < 10; i++) {
-            rankingText += "\n" + (i+1) + ". " + ranking[i].name + " " + ranking[i].points;
+        var max = 10;
+        if (max > ranking.length)
+            max = ranking.length;
+
+        for (var i = 0; i < max; i++) {
+            rankingText += "\n" + (i+1) + ". " + ranking[i].name + " " + ranking[i].score;
             if (ranking[i].name == SHIP.name) {
                 inTop10 = true;
             }
         }
         if (inTop10 == false) {
-            for (var i = 10; i < ranking.length; i++) {
+            for (var i = 10; i < max; i++) {
                 if (ranking[i].name == SHIP.name) {
-                    rankingText += "\n" + (i+1) + ". " + ranking[i].name + " " + ranking[i].points;
+                    rankingText += "\n" + (i+1) + ". " + ranking[i].name + " " + ranking[i].score;
                     break;
                 } 
             }

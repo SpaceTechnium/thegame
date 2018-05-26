@@ -103,7 +103,7 @@ class Technium {
         var playerFound = false;
         for (var i = 0; i < players.length; i++) {
             for (var j = 0; j < this.players.length; j++) {
-                if (this.players[j].name == players[i].name) {
+                if (this.players[j].userData.name == players[i].name) {
                     this.players[j].position.x = players[i].pos_x;
                     this.players[j].position.y = players[i].pos_y;
                     this.players[j].position.z = players[i].pos_z;
@@ -111,17 +111,17 @@ class Technium {
                     this.players[j].rotation.y = players[i].rot_y;
                     this.players[j].rotation.z = players[i].rot_z;
 
-                    this.players[j].userData = {
-                        score   :   players[i].score,
-                        shields :   players[i].shields,
-                    };
+                    this.players[j].userData.score = players[i].score;
+                    this.players[j].userData.shields = players[i].shields;
                     playerFound = true;
                     break;
                 }
             }
             if (playerFound == true)
                 break;
-
+            
+            console.log("a criar jogador");
+            console.log(this.players);
             var newPlayer = SHIP.model.clone();
             newPlayer.position.x = players[i].pos_x;
             newPlayer.position.y = players[i].pos_y;
