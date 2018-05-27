@@ -113,33 +113,40 @@ class Technium {
 
                     this.players[j].userData.score = players[i].score;
                     this.players[j].userData.shields = players[i].shields;
+
+                    
                     playerFound = true;
                     break;
                 }
             }
-            if (playerFound == true)
+            if (playerFound == true) {
+                playerFound = false;
                 break;
+            }
             
-            console.log("a criar jogador");
-            console.log(this.players);
-            var newPlayer = SHIP.model.clone();
-            newPlayer.position.x = players[i].pos_x;
-            newPlayer.position.y = players[i].pos_y;
-            newPlayer.position.z = players[i].pos_z;
-            newPlayer.rotation.x = players[i].rot_x;
-            newPlayer.rotation.y = players[i].rot_y;
-            newPlayer.rotation.z = players[i].rot_z;
+            if (SHIP.model) {
+                console.log("a criar jogador");
+                console.log(this.players);
+                var newPlayer = SHIP.model.clone();
+                newPlayer.position.x = players[i].pos_x;
+                newPlayer.position.y = players[i].pos_y;
+                newPlayer.position.z = players[i].pos_z;
+                newPlayer.rotation.x = players[i].rot_x;
+                newPlayer.rotation.y = players[i].rot_y;
+                newPlayer.rotation.z = players[i].rot_z;
 
-            newPlayer.userData = { 
-                name    : players[i].name,
-                score   : players[i].score,
-                shields : players[i].shields,
-            };
+                newPlayer.userData = { 
+                    name    : players[i].name,
+                    score   : players[i].score,
+                    shields : players[i].shields,
+                };
 
-            this.players.unshift(newPlayer);
-            if (newPlayer.userData.name != SHIP.name)
-                this.scene.add(newPlayer);
-            playerFound = false;
+                this.players.unshift(newPlayer);
+                if (newPlayer.userData.name != SHIP.name)
+                    this.scene.add(newPlayer);
+            }
+            
+            
         }
     }
 

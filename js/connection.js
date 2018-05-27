@@ -24,7 +24,7 @@ var connection = (function() {
       var type = data.type;
 
       if (type == "update") {
-        console.log(data);
+        // console.log(data);
         GAME.updatePlayers(data.players);
         GAME.updateBullets(data.bullets);
         GAME.universe.update(data.tick);
@@ -37,7 +37,7 @@ var connection = (function() {
         GAME.deletePlayers(data.players);
       } 
       else if (type == "planet") {
-        Screen.planetConquest(data.conquest);
+        SCREEN.planetConquest(data.conquest);
       } 
       else if (type == "handshake") {
         socket.send(JSON.stringify({
@@ -59,7 +59,7 @@ var connection = (function() {
       } 
       else if (type == "kick") {
         // TODO: Show the error.
-        SCREEN.errorScreen(nickname.value.toUpperCase() + "?! What a silly name!")
+        SCREEN.errorScreen(data.error);
       }
 
     }

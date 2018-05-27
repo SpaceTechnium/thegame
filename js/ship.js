@@ -70,6 +70,10 @@ class Ship {
     setName ( name ) {
         this.name = name;
     }
+
+    getModel() {
+        return this.model;
+    }
 	
 	refToScene (scene, camera) {
         this.scene = scene;
@@ -190,7 +194,6 @@ class Ship {
     }
 
     update(shipVector) {
-        console.log(this.model.position);
         this.model.position.x = ((SHIP_FOLLOW_ORIGIN_PERCENT + this.frontSpeed / SHIP_FOLLOW_SPEED_FACTOR) * this.model.position.x + (SHIP_FOLLOW_DEST_PERCENT - this.frontSpeed / SHIP_FOLLOW_SPEED_FACTOR) * shipVector.x) + Math.cos(this.oscilation)*(SHIP_FOLLOW_OSCILATION_BASE + (this.frontSpeed)) * SHIP_FOLLOW_OSCILATION_FACTOR;
 		this.model.position.y = ((SHIP_FOLLOW_ORIGIN_PERCENT + this.frontSpeed / SHIP_FOLLOW_SPEED_FACTOR) * this.model.position.y + (SHIP_FOLLOW_DEST_PERCENT - this.frontSpeed / SHIP_FOLLOW_SPEED_FACTOR) * shipVector.y) + Math.sin(this.oscilation)*(SHIP_FOLLOW_OSCILATION_BASE + (this.frontSpeed)) * SHIP_FOLLOW_OSCILATION_FACTOR;
 		this.model.position.z = ((SHIP_FOLLOW_ORIGIN_PERCENT + this.frontSpeed / SHIP_FOLLOW_SPEED_FACTOR) * this.model.position.z + (SHIP_FOLLOW_DEST_PERCENT - this.frontSpeed / SHIP_FOLLOW_SPEED_FACTOR) * shipVector.z);
