@@ -121,12 +121,10 @@ class Technium {
             }
             if (playerFound == true) {
                 playerFound = false;
-                break;
+                continue;
             }
             
             if (SHIP.model) {
-                console.log("a criar jogador");
-                console.log(this.players);
                 var newPlayer = SHIP.model.clone();
                 newPlayer.position.x = players[i].pos_x;
                 newPlayer.position.y = players[i].pos_y;
@@ -166,15 +164,17 @@ class Technium {
         for (var i = 0; i < bullets.length; i++) {
             for (var j = 0; j < this.bullets.length; j++) {
                 if (this.bullets[j].userData.id == bullets[i].id) {
-                    this.bullets[j].position.x = bullets[i].pos_x;
-                    this.bullets[j].position.y = bullets[i].pos_y;
-                    this.bullets[j].position.z = bullets[i].pos_z;
+                    this.bullets[j].position.x = bullets[i].pos.x;
+                    this.bullets[j].position.y = bullets[i].pos.y;
+                    this.bullets[j].position.z = bullets[i].pos.z;
                     bulletFound = true;
                     break;
                 }
             }
-            if (bulletFound == true)
-                break;
+            if (bulletFound == true) {
+                bulletFound = false;
+                continue;
+            }
 
             var newBullet = new THREE.Mesh(
                 new THREE.SphereGeometry(BULLET_SCALE, BULLET_PRECISION, BULLET_PRECISION),
@@ -184,11 +184,11 @@ class Technium {
                     }
                 )
             );
-            newBullet.position.x = bullets[i].pos_x;
-            newBullet.position.y = bullets[i].pos_y;
-            newBullet.position.z = bullets[i].pos_z;
+            newBullet.position.x = bullets[i].pos.x;
+            newBullet.position.y = bullets[i].pos.y;
+            newBullet.position.z = bullets[i].pos.z;
             newBullet.userData = { 
-                id    : bullets[i].id,
+                id    : bullets[i].id
             };
 
             this.bullets.unshift(newBullet);
