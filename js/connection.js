@@ -25,16 +25,12 @@ var connection = (function() {
 
       if (type == "update") {
         // console.log(data);
+        GAME.deletePlayers(data.playersOut);
+        GAME.deleteBullets(data.bulletsOut);
         GAME.updatePlayers(data.players);
         GAME.updateBullets(data.bullets);
         GAME.universe.update(data.tick);
         SCREEN.updateRanking(data.ranking);
-      } 
-      else if (type == "bulletOut") {
-        GAME.deleteBullets(data.bullets);
-      } 
-      else if (type == "playerOut") {
-        GAME.deletePlayers(data.players);
       } 
       else if (type == "planet") {
         SCREEN.planetConquest(data.conquest);
